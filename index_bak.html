@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+
+		<title>scandemo</title>
+		<script type="text/javascript">
+			function  obj2string(o) {     
+				var  r = [];     
+				if(typeof  o == "string") {          return  "\"" + o.replace(/([\'\"\\])/g, "\\$1").replace(/(\n)/g, "\\n").replace(/(\r)/g, "\\r").replace(/(\t)/g, "\\t") + "\"";      }     
+				if(typeof  o == "object") {         
+					if(!o.sort) {             
+						for(var  i  in  o) {                  r.push(i + ":" + obj2string(o[i]));              }             
+						if(!!document.all && !/^\n?function\s*toString\(\)\s*\{\n?\s*\[native code\]\n?\s*\}\n?\s*$/.test(o.toString)) {                 
+							r.push("toString:" + o.toString.toString());             
+						}             
+						r = "{" + r.join() + "}";         
+					} else {             
+						for(var  i = 0; i < o.length; i++) {                  r.push(obj2string(o[i]))              }              r = "[" + r.join() + "]";         
+					}          
+					return  r;     
+				}      
+				return  o.toString(); 
+			} 
+			document.addEventListener('touchstart', function() {
+				return false;
+			}, true);
+			document.oncontextmenu = function() {
+				return false;
+			}
+			var scan = null;
+
+			function onmarked(type, result, file) {
+				switch(type) {
+					case plus.barcode.QR:
+						type = 'QR';
+						break;
+					case plus.barcode.EAN13:
+						type = 'EAN13';
+						break;
+					case plus.barcode.EAN8:
+						type = 'EAN8'
+						break;
+					default:
+						type = '其它' + type;
+						break;
+				}
+				result = result.replace(/\n/g, '');
+				var rs = document.getElementById('result');
+				rs.innerText = 'type: ' + type + '\n result: ' + result + '\n ';
+			}
+
+			function plusReady() {
+				if(!window.plus || !_domReady) return;
+				//				plus.navigator.closeSplashscreen();
+				plus.webview.currentWebview().setStyle({ scrollIndicator: 'none' });
+				plus.key.addEventListener('backbutton', function() {
+					if(confirm('确认退出？')) {
+						plus.runtime.quit();
+					}
+				}, false);
+				var rs = document.getElementById('result');
+				var btnStart = document.getElementById("start");
+				btnStart.addEventListener('click', function() {
+					scan.start({ vibrate: true })
+					rs.innerText = rs.innerText + '\n' + '扫描';
+				})
+				var btnStop = document.getElementById("stop");
+				btnStop.addEventListener('click', function() {
+					scan.cancel()
+					rs.innerText = rs.innerText + '\n' + '中止';
+
+				});
+
+				var btnInsert = document.getElementById("insert");
+				btnInsert.addEventListener('click', function() {
+					db.transaction(function(context) {
+						context.executeSql('CREATE TABLE IF NOT EXISTS testTable1 (id, name)');
+						for(var i = 0; i < 10; i++) {
+							var sql = 'INSERT INTO testTable1 (id, name) VALUES (' + i + ', "bbb")'
+							context.executeSql(sql);
+							rs.innerText = rs.innerText + '\n' + sql;
+						}
+					});
+
+				});
+				var db = null;
+				var btnRead = document.getElementById("read");
+				btnRead.addEventListener('click', function() {
+					db.transaction(function(context) {
+						rs.innerText = rs.innerText + '\n' + '开始read数据';
+						context.executeSql('SELECT * FROM testTable1', [], function(context, results) {
+							var len = results.rows.length,
+								i;
+							rs.innerText = rs.innerText + '\n 读取到' + len + "条数据";
+							for(i = 0; i < len; i++) {
+								rs.innerText = rs.innerText + '\n 读取到' + 'id: ' + results.rows.item(i).id + '  name: ' + results.rows.item(i).name;
+							}
+						});
+						rs.innerText = rs.innerText + '\n' + '结束read数据';
+					});
+
+				});
+
+				scan = new plus.barcode.Barcode('bcid')
+				scan.onmarked = onmarked;
+				scan.start({ vibrate: true })
+
+				var btnOpen = document.getElementById("open");
+				btnOpen.addEventListener('click', function() {
+					db = openDatabase('testdb1', '1.0', 'test DB', 20 * 1024 * 1024);
+				});
+
+				
+			};
+
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			}
+
+			var _domReady = false;
+			document.addEventListener('DOMContentLoaded', function() {
+				_domReady = true;
+				plusReady();
+				compatibleAdjust();
+			}, false);
+
+			var _adjust = false;
+
+			function compatibleAdjust() {
+				if(_adjust || !window.plus || !_domReady)
+					return;
+
+				_adjust = true;
+				plus.navigator.setStatusBarBackground('#ffffff');
+				if(plus.navigator.isImmersedStatusbar()) {
+					plus.navigator.setStatusBarStyle('UIStatusBarStyleBlackOpaque')
+				}
+
+				setTimeout(function() {
+					plus.navigator.closeSplashscreen();
+				}, 200);
+			}
+
+			var _openw = null;
+		</script>
+		<link rel="stylesheet" type="text/css" href="css/common.css" />
+		<style type="text/css">
+			* {
+				-webkit-user-select: none;
+			}
+			
+			html,
+			body {
+				margin: 0px;
+				padding: 0px;
+				height: 100%;
+			}
+			
+			#bcid {
+				background: #0F0;
+				width: 100%;
+				height: 230px;
+			}
+			
+			#result {
+				width: 100%;
+				height: 50px;
+			}
+			
+			input[type=button] {
+				width: 140px;
+				height: 40px;
+			}
+			
+			#btns {
+				width: 100%;
+				height: 120px;
+				text-align: center;
+				box-sizing: border-box;
+				padding: 0px, 10px, 0px, 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="bcid">
+		</div>
+
+		<div id="btns">
+			<input type="button" id="start" value="扫描" />
+			<input type="button" id="stop" value="中止" />
+			<input type="button" id="open" value="打开数据库" />
+			<input type="button" id="insert" value="插入数据" />
+			<input type="button" id="read" value="读取数据" />
+
+		</div>
+		<label>结果：</label>
+		<p id="result"></p>
+
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

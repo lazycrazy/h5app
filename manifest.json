@@ -1,0 +1,332 @@
+{
+	"@platforms": [
+		"android",
+		"iPhone",
+		"iPad"
+	],
+	"id": "H5B3DCA6A",/*应用的标识，创建应用时自动生成，勿手动修改*/
+	"name": "scandemo",/*应用名称，程序桌面图标名称*/
+	"version": {
+		"name": "1.0",/*应用版本名称*/
+		"code": ""
+	},
+	"description": "demo",/*应用描述信息*/
+	"icons": {
+		"72": "icon.png"
+	},
+	"launch_path": "dist/index.html",/*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
+	"developer": {
+		"name": "",/*开发者名称*/
+		"email": "",/*开发者邮箱地址*/
+		"url": ""
+	},
+	"permissions": {
+		
+		
+		"Messaging": {},
+		"Cache": {
+			"description": "管理应用缓存"
+		},
+		"Camera": {
+			"description": "访问摄像头"
+		},
+		"Console": {
+			"description": "跟踪调试输出日志"
+		},
+		
+		"Device": {
+			"description": "访问设备信息"
+		},
+		"Downloader": {
+			"description": "文件下载管理"
+		},
+		"Events": {
+			"description": "应用扩展事件"
+		},
+		"File": {
+			"description": "访问本地文件系统"
+		},
+		"Gallery": {
+			"description": "访问系统相册"
+		},
+		"Geolocation": {
+			"description": "访问位置信息"
+		},
+		"Invocation": {
+			"description": "使用Native.js能力"
+		},
+		
+		
+		"Storage": {
+			"description": "管理应用本地数据"
+		},
+
+		"Uploader": {
+			"description": "管理文件上传任务"
+		},
+		"Runtime": {
+			"description": "访问运行期环境"
+		},
+		"XMLHttpRequest": {
+			"description": "跨域网络访问"
+		},
+		"Zip": {
+			"description": "文件压缩与解压缩"
+		},
+		"Barcode": {
+			"description": "管理二维码扫描插件"
+		},
+		
+		
+		"Webview": {
+			"description": "窗口管理"
+		},
+		"NativeUI": {
+			"description": "原生UI控件"
+		},
+		"Navigator": {
+			"description": "浏览器信息"
+		},
+		"NativeObj": {
+			"description": "原生对象"
+		}
+	},
+	"plus": {
+		"splashscreen": {
+			"autoclose": false,/*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
+			"waiting": true,
+			"delay": "0"
+		},
+		"popGesture": "close",/*设置应用默认侧滑返回关闭Webview窗口，"none"为无侧滑返回功能，"hide"为侧滑隐藏Webview窗口。参考http://ask.dcloud.net.cn/article/102*/
+		"runmode": "liberate",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
+		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
+		"distribute": {
+			"apple": {
+				"appid": "",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
+				"mobileprovision": "",/*iOS应用打包配置文件*/
+				"password": "",/*iOS应用打包个人证书导入密码*/
+				"p12": "",/*iOS应用打包个人证书，打包配置文件关联的个人证书*/
+				"devices": "universal",/*iOS应用支持的设备类型，可取值iphone/ipad/universal*/
+				"frameworks": []
+			},
+			"google": {
+				"packagename": "",/*Android应用包名，如io.dcloud.HelloH5*/
+				"keystore": "",/*Android应用打包使用的密钥库文件*/
+				"password": "",/*Android应用打包使用密钥库中证书的密码*/
+				"aliasname": "",/*Android应用打包使用密钥库中证书的别名*/
+				"permissions": ["<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>","<uses-permission android:name=\"android.permission.SEND_SMS\"/>","<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>","<uses-permission android:name=\"android.permission.VIBRATE\"/>","<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>","<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>","<uses-permission android:name=\"android.permission.CALL_PHONE\"/>","<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>","<uses-feature android:name=\"android.hardware.camera.autofocus\"/>","<uses-feature android:name=\"android.hardware.camera\"/>","<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>","<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.WRITE_SMS\"/>","<uses-permission android:name=\"android.permission.READ_SMS\"/>","<uses-permission android:name=\"android.permission.CAMERA\"/>"]
+			},
+			"orientation": [
+				"portrait-primary"
+			],/*应用支持的方向，portrait-primary：竖屏正方向；portrait-secondary：竖屏反方向；landscape-primary：横屏正方向；landscape-secondary：横屏反方向*/
+			"icons": {
+				"ios": {
+					"prerendered": true, /*应用图标是否已经高亮处理，在iOS6及以下设备上有效*/
+					"auto": "", /*应用图标，分辨率：512x512，用于自动生成各种尺寸程序图标*/
+					"iphone": {
+						"normal": "unpackage/res/icons/57x57.png", /*iPhone3/3GS程序图标，分辨率：57x57*/
+						"retina": "unpackage/res/icons/114x114.png", /*iPhone4程序图标，分辨率：114x114*/
+						"retina7": "unpackage/res/icons/120x120.png", /*iPhone4S/5/6程序图标，分辨率：120x120*/
+						"retina8": "unpackage/res/icons/180x180.png", /*iPhone6 Plus程序图标，分辨率：180x180*/
+						"spotlight-normal": "unpackage/res/icons/29x29.png", /*iPhone3/3GS Spotlight搜索程序图标，分辨率：29x29*/
+						"spotlight-retina": "unpackage/res/icons/58x58.png", /*iPhone4 Spotlight搜索程序图标，分辨率：58x58*/
+						"spotlight-retina7": "unpackage/res/icons/80x80.png", /*iPhone4S/5/6 Spotlight搜索程序图标，分辨率：80x80*/
+						"settings-normal": "unpackage/res/icons/29x29.png", /*iPhone4设置页面程序图标，分辨率：29x29*/
+						"settings-retina": "unpackage/res/icons/58x58.png", /*iPhone4S/5/6设置页面程序图标，分辨率：58x58*/
+						"settings-retina8": "unpackage/res/icons/87x87.png"
+					},
+					"ipad": {
+						"normal": "unpackage/res/icons/72x72.png", /*iPad普通屏幕程序图标，分辨率：72x72*/
+						"retina": "unpackage/res/icons/144x144.png", /*iPad高分屏程序图标，分辨率：144x144*/
+						"normal7": "unpackage/res/icons/76x76.png", /*iPad iOS7程序图标，分辨率：76x76*/
+						"retina7": "unpackage/res/icons/152x152.png", /*iPad iOS7高分屏程序图标，分辨率：152x152*/
+						"spotlight-normal": "unpackage/res/icons/50x50.png", /*iPad Spotlight搜索程序图标，分辨率：50x50*/
+						"spotlight-retina": "unpackage/res/icons/100x100.png", /*iPad高分屏Spotlight搜索程序图标，分辨率：100x100*/
+						"spotlight-normal7": "unpackage/res/icons/40x40.png",/*iPad iOS7 Spotlight搜索程序图标，分辨率：40x40*/
+						"spotlight-retina7": "unpackage/res/icons/80x80.png",/*iPad iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+						"settings-normal": "unpackage/res/icons/29x29.png",/*iPad设置页面程序图标，分辨率：29x29*/
+						"settings-retina": "unpackage/res/icons/58x58.png"
+					}
+				},
+				"android": {
+					"mdpi": "unpackage/res/icons/48x48.png", /*普通屏程序图标，分辨率：48x48*/
+					"ldpi": "unpackage/res/icons/48x48.png", /*大屏程序图标，分辨率：48x48*/
+					"hdpi": "unpackage/res/icons/72x72.png", /*高分屏程序图标，分辨率：72x72*/
+					"xhdpi": "unpackage/res/icons/96x96.png",/*720P高分屏程序图标，分辨率：96x96*/
+					"xxhdpi": "unpackage/res/icons/144x144.png",
+					"xxxhdpi": "unpackage/res/icons/192x192.png"
+				}
+			},
+			"splashscreen": {
+				"ios": {
+					"iphone": {
+						"default": "", /*iPhone3启动图片选，分辨率：320x480*/
+						"retina35": "",/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
+						"retina40": "",/*4.0 英寸设备(iPhone5/iPhone5s)启动图片，分辨率：640x1136*/
+						"retina47": "",/*4.7 英寸设备(iPhone6)启动图片，分辨率：750x1334*/
+						"retina55": "",/*5.5 英寸设备(iPhone6 Plus)启动图片，分辨率：1242x2208*/
+						"retina55l": ""
+					},
+					"ipad": {
+						"portrait": "", /*iPad竖屏启动图片，分辨率：768x1004*/
+						"portrait-retina": "",/*iPad高分屏竖屏图片，分辨率：1536x2008*/
+						"landscape": "", /*iPad横屏启动图片，分辨率：1024x748*/
+						"landscape-retina": "", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
+						"portrait7": "", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
+						"portrait-retina7": "",/*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
+						"landscape7": "", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
+						"landscape-retina7": ""
+					}
+				},
+				"android": {
+					"mdpi": "", /*普通屏启动图片，分辨率：240x282*/
+					"ldpi": "", /*大屏启动图片，分辨率：320x442*/
+					"hdpi": "C:/Users/luwei/Desktop/QQ截图20170401210707.png","xhdpi":"C:/Users/luwei/Desktop/QQ截图20170401210707.png","xxhdpi":"C:/Users/luwei/Desktop/QQ截图20170401210707.png"
+				}
+			},
+			"debug": false
+		}
+	},
+	"dependencies": {
+		"pages": {
+			"index.html": {
+				"resources": [
+					"js/common.js",
+					"css/common.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"dist/index.html": {
+				"resources": [
+					"/dist/vendor.36e0ed2f10acaf1f14bf.js",
+					"/dist/index.394f1c4a1245b88e3632.js",
+					"/dist/index.2cf6888da67bb3402731.css",
+					"/dist/index.8578501c6cd513c02ec0.css",
+					"/dist/index.87e2e0cf21c88a2432f0.css",
+					"/dist/vendor.05e18cce4ef03ee06c26.js",
+					"/dist/index.7c0898f84c914ae61c85.js",
+					"dist/index.87e2e0cf21c88a2432f0.css",
+					"dist/index.7c0898f84c914ae61c85.js",
+					"dist/vendor.05e18cce4ef03ee06c26.js",
+					"dist/index.04fb6a17c907447af475.css",
+					"dist/vendor.a585b16df798df0ece6c.js",
+					"dist/index.340cc0004b0867c7c473.js",
+					"dist/index.660039b694086adc0a7c.css",
+					"dist/vendor.5665177a7ca34b338db6.js",
+					"dist/index.d10f659f7df8e34fb46f.js",
+					"dist/index.20463057b1ee66f22a01.js",
+					"dist/index.826487481b919042626b.css",
+					"dist/vendor.62be052974785a65edeb.js",
+					"dist/index.516081a9c500b42bbc0f.css",
+					"dist/index.eac8981eeaf59054f052.js",
+					"dist/vendor.1a84f745f5f2a25ce467.js",
+					"dist/index.dfb8aaadc84fcbee333c.js",
+					"dist/vendor.d1d2e29e0f5f35dae54b.js",
+					"dist/index.186b67edf4ed7964aa36.css",
+					"dist/index.79f8f01ebd8bd4ca36fa.js",
+					"dist/vendor.59ded77a654619b26495.js",
+					"dist/index.acb720d87b58deb16600.css",
+					"dist/index.18c5e3464f3f198ff03d.js",
+					"dist/index.efc5891951d78deeabfa.css",
+					"dist/vendor.683bd98b8083d383fd95.js",
+					"dist/vendor.c38ac4083043bf3b5cd5.js",
+					"dist/index.1931afc9d13643bb46f0.css",
+					"dist/index.2643e54aa315ad4c9968.js",
+					"dist/vendor.2935785dde91dd40c65d.js",
+					"dist/index.d91d3ea1df0293dd9285.css",
+					"dist/index.06aa5c8214be708d1ead.js",
+					"dist/vendor.b7f5c4c63dbd83dd7b76.js",
+					"dist/index.3e5e6fae94b4296821ac.css",
+					"dist/index.7791f86d871b5df9fa5e.js",
+					"dist/vendor.c30145b8fdbc2a1fe206.js",
+					"dist/index.af66ffa18af79f5ea229.js",
+					"dist/index.1eccf0fb17088dfe74e7.css",
+					"dist/index.fb0722d077ea3b597363.css",
+					"dist/index.91f22480de9efd80c96d.js",
+					"dist/vendor.5b31e713dac911ad5e20.js",
+					"dist/index.61bd8b9e362ade9c1cde.js",
+					"dist/vendor.c696007e9119fd3b2f73.js",
+					"dist/index.c9f397677b425da75eb0.css",
+					"dist/index.c19947b44fefb678e725.js",
+					"dist/vendor.40b65a3d66bf1dba6f4e.js",
+					"dist/index.9079047442fca41281c1.css",
+					"dist/vendor.a5cd68fd0205da7c9e8d.js",
+					"dist/index.5da1be10d89c4ccd2215.css",
+					"dist/index.551d36752439df976e6a.js",
+					"dist/index.23ff6091c6b24b3f18fa.js",
+					"dist/vendor.43a1a6ba6e0d2f92f869.js",
+					"dist/index.1d9b01ac8eaf6a831003.css",
+					"dist/index.d1c36c95aa39388500d5.js",
+					"dist/index.c342291ad6a94da700b1.css",
+					"dist/vendor.19cace339f2a79b08041.js",
+					"dist/index.2e6f1f39f27ecb6837ad.js",
+					"dist/index.a8a8d44957f3b868594f.css",
+					"dist/vendor.33f242185aa38b4a18bb.js",
+					"dist/index.e6d23fbb6361c6b62364.js",
+					"dist/index.08709cc0703ef669a9a6.css",
+					"dist/vendor.ac5359411ed28d7a2a67.js",
+					"dist/vendor.d483edf421b4432ade5c.js",
+					"dist/index.34db5ee77df49d901f68.css",
+					"dist/index.371c8024481bb389b2ba.js",
+					"dist/index.d076c98e9931a056f415.js",
+					"dist/index.e64eb3a0fdf0cb577a7a.css",
+					"dist/vendor.fbb44af55ce271cd59bd.js",
+					"dist/index.364b904824997f51f246.css",
+					"dist/index.5c331afcfa6226e3750c.js",
+					"dist/vendor.afa06a57b0a646724f7c.js",
+					"dist/vendor.86619480d85f89fed583.js",
+					"dist/index.bec4341aa8a8c1373180.css",
+					"dist/index.c8f082b00245b6491369.js",
+					"dist/index.6195563ace7ac711c72b.js",
+					"dist/vendor.3a2a3591c106f7c38c3e.js",
+					"dist/index.98d1f856f5b1d722e3d6.css",
+					"dist/index.6e6f3a98668207d4baed.js",
+					"dist/vendor.a4abdc5d38524fb37423.js",
+					"dist/index.b359e18506380c53fd24.css",
+					"dist/vendor.0a2a495859d76a46a6c1.js",
+					"dist/index.169fc381646e846eed3a.css",
+					"dist/index.4159b61e52fcd63243f8.js"
+				],
+				"refer": [],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": [
+				"static/58x58.png",
+				"config/index.js",
+				"build/复制 webpack.config.js",
+				"复制 index.html",
+				"build/build.js",
+				"dist/index.2cf6888da67bb3402731.css",
+				"dist/index.394f1c4a1245b88e3632.js.map",
+				"postcss.config.js",
+				"dist/vendor.36e0ed2f10acaf1f14bf.js",
+				"dist/index.2cf6888da67bb3402731.css.map",
+				"package.json",
+				"dist/vendor.36e0ed2f10acaf1f14bf.js.map",
+				"build/webpack.config.js",
+				"dist/index.394f1c4a1245b88e3632.js",
+				"yarn.lock",
+				"js/index.js"
+			]
+		}
+	},
+	"fullscreen": false,
+	"unpackage":[
+	  "build/build.js",
+	  "build/webpack.config.js",
+	  "build/webpack_bak.config.js",
+	  "config/index.js",
+	  "css/common.css",
+	  "dist/*.map",
+	  "js/index.js",
+	  "static/58x58.png",
+	  "package.json",
+	  "postcss.config.js",
+	  "yarn.lock",
+	  "index.html",
+	  "index_bak.html"
+	]
+}

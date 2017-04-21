@@ -3,7 +3,7 @@
 		<head-top signin-up='home'>
 			<span slot='logo' class="head_logo" @click="reload">ele.me</span>
 		</head-top>
-		<h1>Hello App!</h1>
+		<h1>Hello App!!!</h1>
 		<p>
 			<router-link to="/home">Go to HOme</router-link>
 			<router-link to="/scan">Go to Scavn</router-link>
@@ -25,6 +25,11 @@
 		},
 		components: {
 			headTop
+		},
+		methods:{
+		    reload(){
+		    	window.location.reload()
+		    }
 		}
 	}
 </script>

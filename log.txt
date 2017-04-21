@@ -1,1 +1,5 @@
 http://editor.method.ac/ svg 在线编辑转换工具
+可以用svg文件浏览器查看
+不要文件中只写入export * from ...
+
+"transform-runtime","transform-object-rest-spread"

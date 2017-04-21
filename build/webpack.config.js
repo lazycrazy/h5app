@@ -4,7 +4,8 @@ var webpack = require('webpack')
 var HTMLPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var projectRoot = path.resolve(__dirname, '../')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+//var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
 	entry: {
@@ -23,7 +24,7 @@ module.exports = {
 	output: {
 		filename: '[name].[chunkhash].js',
 		path: config.build.assetsRoot,
-		//		publicPath: config.build.assetsPublicPath
+		publicPath: config.build.assetsPublicPath
 	},
 	module: {
 		rules: [{
@@ -70,11 +71,12 @@ module.exports = {
 			//					'components': path.resolve(__dirname, '../src/components')
 		}
 	},
-	devtool: 'source-map',
+	devtool: process.env.NODE_ENV === config.dev.env.NODE_ENV ? '#eval-source-map' : 'source-map',
 	plugins: [
+//		new BundleAnalyzerPlugin(),
 		new webpack.DefinePlugin({
 			'process.env': {
-				NODE_ENV: '"dev"'
+				NODE_ENV: `'${process.env.NODE_ENV}'`
 			}
 		}),
 		new webpack.optimize.CommonsChunkPlugin({
@@ -86,7 +88,7 @@ module.exports = {
 		new ExtractTextPlugin('[name].[hash].css'),
 		new webpack.optimize.OccurrenceOrderPlugin(),
 		new UglifyJSPlugin({
-						sourceMap: true
+			sourceMap: true
 		}),
 		new webpack.LoaderOptionsPlugin({
 			minimize: true

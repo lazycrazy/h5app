@@ -5,13 +5,13 @@ export default {
 	async setUserInfo({
 		commit,
 		state
-	}) {
-		commit(SET_USERINFO, await getUser())
+	}) { 
+		commit(SET_USERINFO,   await getUser())
 	},
 	async setAddress({
 		commit,
 		state
-	}) {
-		commit(SET_ADDRESS, await getAddressList(state.userInfo.user_id))
+	}) { 
+//		commit(SET_ADDRESS, await getAddressList(state.userInfo.user_id))
 	}
 }

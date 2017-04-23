@@ -1,5 +1,4 @@
 import '../css/common'
-import '../css/icon'
 import obj2string, {
 	InitApp
 } from './common'

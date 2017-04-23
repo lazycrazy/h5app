@@ -1,0 +1,44 @@
+$blue: #3190e8;
+$bc: #e4e4e4;
+$fc:#fff;
+@define-mixin wh $width,
+$height {
+	width: $width;
+	height: $height;
+}
+
+@define-mixin sc $size,
+$color {
+	font-size: $size;
+	color: $color;
+}
+
+@define-mixin ct {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+@define-mixin cl {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+@define-mixin center {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+
+@define-mixin fj $type: space-between {
+	display: flex;
+	justify-content: $type;
+}
+
+@define-mixin font $size,
+$line-height,
+$family:'Microsoft YaHei' {
+	font: $(size)/$(line-height) $family;
+}

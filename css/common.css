@@ -89,7 +89,7 @@ body {
 	background-color: #F5F5F5;
 }
 
-.clear:after {
+.clear::after {
 	content: '';
 	display: block;
 	clear: both;

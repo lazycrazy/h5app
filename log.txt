@@ -1,5 +1,15 @@
 http://editor.method.ac/ svg 在线编辑转换工具
 可以用svg文件浏览器查看
-不要文件中只写入export * from ...
+不要文件中只有export * from ...
 
 "transform-runtime","transform-object-rest-spread"
+
+vue 组件 字面量语法 vs 动态语法    如果想传递一个实际的number，需要使用 v-bind ，从而让它的值被当作 JavaScript 表达式计算
+
+
+press 
+连接带变量的字符串     $(size)/$(line-height)  
+li 文字默认垂直对齐方式
+.clear::after ":after" 伪元素可以在元素的 内容 之后插入新内容
+::before和::after等伪元素使用双冒号(::)，:hover和:active等伪类使用单冒号(:)
+li 垂直对齐， 设置height 和line-height 相同， 因为文字在line-height是垂直居中的

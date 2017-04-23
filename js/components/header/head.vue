@@ -8,7 +8,7 @@
 			</svg>
 		</div>
 		<router-link :to="userInfo? '/profile':'/login'" v-if='signInUp' class='head_login'>
-			<icon name="user" v-if='userInfo'></icon>
+			<icon class="user_avatar" name="user" v-if='userInfo'></icon>
 			<span class='login_span' v-else>登录|注册</span>
 		</router-link>
 		<span class='head_title'>{{ headTitle }}</span>
@@ -37,20 +37,20 @@
 			},
 			headTitle: {
 				type: String,
-				default: '欢迎'
+				default: ''
 			},
 			goback: {
 				type: Boolean,
-				default: true
+				default: false
 			}
 		},
 		computed: {
-            ...mapState([
+			...mapState([
 				'userInfo'
 			]),
 		},
 		methods: {
-		    ...mapActions([
+			...mapActions([
 				'setUserInfo'
 			]),
 		},
@@ -59,6 +59,47 @@
 		}
 	}
 </script>
-<style>
-
+<style scoped>
+	@import '../../../css/mixin.css';
+	#head_top {
+		background-color: $blue;
+		position: fixed;
+		/*z-index: 100;*/
+		left: 0;
+		top: 0;
+		@mixin wh 100%,
+		1.95rem;
+	}
+	
+	.head_goback {
+		left: .4rem;
+		@mixin wh .6rem,
+		0.8rem;
+		line-height: 2.2rem;
+		margin-left: .4rem;
+	}
+	
+	.head_login {
+		right: .55rem;
+		@mixin sc 0.65rem,
+		#fff;
+		@mixin ct;
+		.login_span {
+			color: #fff;
+		}
+		.user_avatar {
+			fill: #fff;
+			@mixin wh .8rem,
+			.8rem;
+		}
+	}
+	
+	.head_title {
+		@mixin center;
+		width: 50%;
+		color:#fff;
+		text-align: center;
+		@mixin sc .8rem,#fff;
+		font-weight: bold;
+	}
 </style>

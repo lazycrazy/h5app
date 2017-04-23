@@ -1,15 +1,28 @@
-http://editor.method.ac/ svg 在线编辑转换工具
-可以用svg文件浏览器查看
-不要文件中只有export * from ...
 
+babel
+不要文件中只有export * from ...
 "transform-runtime","transform-object-rest-spread"
 
+
+vue
 vue 组件 字面量语法 vs 动态语法    如果想传递一个实际的number，需要使用 v-bind ，从而让它的值被当作 JavaScript 表达式计算
+计算属性默认只有getter，可以加setter 计算属性是缓存的，依赖的值变动才重新计算，与watch是有区别的，但watch属性可以添加一些自定义的操作
+定义组件属性时，慎用箭头函数，this会指向错误undefined
 
-
+css
 press 
-连接带变量的字符串     $(size)/$(line-height)  
-li 文字默认垂直对齐方式
+连接带变量的字符串     $(size)/$(line-height)   
 .clear::after ":after" 伪元素可以在元素的 内容 之后插入新内容
 ::before和::after等伪元素使用双冒号(::)，:hover和:active等伪类使用单冒号(:)
 li 垂直对齐， 设置height 和line-height 相同， 因为文字在line-height是垂直居中的
+:nth-child(n) :nth-of-type(n) 
+在不指定类型时，nth-child(n)选中的是父元素下的第N个子元素  nth-of-type(n)选中的是父元素下的 不同类型标签 的第N个(区分类型计数)
+指定类型时 ele:nth-child(n)要求不仅仅是第n个子元素，并且这个子元素的标签是ele   ele:nth-of-type(n)选择的是父元素下ele标签的第二个
+ele:last-child选中父元素下最后一个子元素，并且该子元素的标签必须为ele，否则一个都不选中。ele:last-of-type选中父元素下ele标签的最后一个
+background:transparent 意思就是背景透明 实际上background默认的颜色就是透明的属性。所以写和不写都是一样的
+
+
+
+other
+http://editor.method.ac/ svg 在线编辑转换工具
+可以用svg文件浏览器查看

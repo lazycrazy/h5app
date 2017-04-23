@@ -7,7 +7,7 @@ module.exports = {
 		},
 		index: path.resolve(__dirname, '../dist/index.html'),
 		assetsRoot: path.resolve(__dirname, '../dist'),
-		assetsPublicPath: '/',
+		assetsPublicPath: '/', //h5plus app 需使用本地相对路径，需要注释掉
 		assetsSubDirectory: 'static',
 		productionSourceMap: true,
 		productionGzip: false,

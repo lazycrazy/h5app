@@ -16,23 +16,33 @@
 		<section id='hot_city_container'>
 			<h4 class='city_title'>热门城市</h4>
 			<ul class='citylist clear'>
-				<router-link tag='li' v-for="item in hotcity" :to="'/city/' + item.id" :key='item.id'>
+				<router-link tag='li' v-for="item of hotcity" :to="'/city/' + item.id" :key='item.id'>
 					{{item.name}}
 				</router-link>
 			</ul>
 		</section>
 
-		<p>
-			<router-link to="/home">Go to HOme</router-link>
-			<router-link to="/scan">Go to Scavn</router-link>
-		</p>
+		<section class='group_city_container'>
+			<ul>
+				<li v-for='(val,key,index) of sortedgroupcity' :key='key' class='letter_classify_li'>
+					<h4 class='city_title'>
+						{{key}}
+						<span v-if='index===0'>
+		 				(按字母排序)
+		 			</span></h4>
+					<ul class='lettercity citylist clear'>
+						<router-link tag='li' :to="'/city/'+item.id" v-for='item of val' :key='item.id' class='ellipsis'>{{item.name}}</router-link>
+					</ul>
+				</li>
+			</ul>
+		</section>
 	</div>
 </template>
 
 <script>
 	import HeadTop from '../../components/header/head'
 	import Icon from '../../components/icon'
-	import { cityGuess, hotcity } from '../../service'
+	import { cityGuess, hotcity, groupcity } from '../../service'
 	export default {
 		name: 'home',
 		data() {
@@ -40,7 +50,7 @@
 				guessCity: '任丘',
 				guessCityId: '123',
 				hotcity: [],
-				groupcity: {}
+				groupcity: {},
 			}
 		},
 		components: {
@@ -60,7 +70,24 @@
 
 			c = await hotcity()
 			this.hotcity = c
+
+			c = await groupcity()
+			this.groupcity = c
+		},
+		computed: {
+			sortedgroupcity() {
+				let sortedObj = {}
+				if(this.groupcity)
+					for(let i = 65; i <= 90; i++) {
+						let letter = String.fromCharCode(i)
+						let charCity = this.groupcity[letter]
+						if(charCity)
+							sortedObj[letter] = charCity
+					}
+				return sortedObj
+			}
 		}
+
 	}
 </script>
 <style scoped>
@@ -100,6 +127,7 @@
 			height: 1.8rem;
 			padding: 0 0.45rem;
 			border-top: 1px solid $bc;
+			border-bottom:2px solid $bc;
 			@mixin font 0.75rem,
 			1.8rem;
 			span:nth-of-type(1) {
@@ -134,16 +162,29 @@
 			border-right: none;
 		}
 	}
-	.city_title{
-		color:#666;
-		font-weight:400;
-		text-indent:0.45rem;
+	
+	.city_title {
+		color: #666;
+		font-weight: 400;
+		text-indent: 0.45rem;
 		border-top: 2px solid $bc;
 		border-bottom: 1px solid $bc;
-		@mixin font 0.55rem,1.45rem,'Helvetica Neue';
-		span{
-			@mixin sc 0.475rem,#999;
+		@mixin font 0.55rem,
+		1.45rem,
+		'Helvetica Neue';
+		span {
+			@mixin sc 0.475rem,
+			#999;
 		}
-		
+	}
+	.letter_classify_li{
+		margin-bottom: 0.4rem;
+		background-color:#fff;
+		border-bottom: 1px solid $bc;
+		.lettercity{
+			li{
+				color:#666;
+			}
+		}
 	}
 </style>

@@ -69,15 +69,15 @@ let postAddAddress = (userId, address, address_detail, geohash, name, phone, pho
 let placeOrders = (user_id, cart_id, address_id, description, entities, geohash, sig) => Promise.resolve(confirm.palceOrder)
 let rePostVerify = (cart_id, sig, type) => Promise.resolve(confirm.verfiyCode)
 let validateOrders = ({
-	user_id,
-	cart_id,
-	address_id,
-	description,
-	entities,
-	geohash,
-	sig,
-	validation_code,
-	validation_token
+    user_id,
+    cart_id,
+    address_id,
+    description,
+    entities,
+    geohash,
+    sig,
+    validation_code,
+    validation_token
 }) => Promise.resolve(confirm.orderSuccess)
 let payRequest = (merchantOrderNo, userId) => Promise.resolve(confirm.payDetail)
 let getService = () => Promise.resolve(service.serviceData)
@@ -94,47 +94,63 @@ let deleteAddress = (userid, addressid) => Promise.resolve(vip.vipcart)
 let sendLogin = (code, mobile, validate_token) => Promise.resolve(login.userInfo)
 
 export {
-	cityGuess,
-	hotcity,
-	groupcity,
-	currentcity,
-	searchplace,
-	msiteAdress,
-	msiteFoodTypes,
-	shopList,
-	searchRestaurant,
-	foodCategory,
-	foodDelivery,
-	foodActivity,
-	shopDetails,
-	foodMenu,
-	getRatingList,
-	ratingScores,
-	ratingTags,
-	mobileCode,
-	accountLogin,
-	checkExsis,
-	sendMobile,
-	checkout,
-	getRemark,
-	getAddress,
-	getcaptchas,
-	searchNearby,
-	postAddAddress,
-	placeOrders,
-	rePostVerify,
-	validateOrders,
-	payRequest,
-	getService,
-	vipCart,
-	getHongbaoNum,
-	getExpired,
-	exChangeHongbao,
-	getUser,
-	sendLogin,
-	getOrderList,
-	getOrderDetail,
-	getAddressList,
-	getSearchAddress,
-	deleteAddress
+    cityGuess,
+    hotcity,
+    groupcity,
+    currentcity,
+    searchplace,
+    msiteAdress,
+    msiteFoodTypes,
+    shopList,
+    searchRestaurant,
+    foodCategory,
+    foodDelivery,
+    foodActivity,
+    shopDetails,
+    foodMenu,
+    getRatingList,
+    ratingScores,
+    ratingTags,
+    mobileCode,
+    accountLogin,
+    checkExsis,
+    sendMobile,
+    checkout,
+    getRemark,
+    getAddress,
+    getcaptchas,
+    searchNearby,
+    postAddAddress,
+    placeOrders,
+    rePostVerify,
+    validateOrders,
+    payRequest,
+    getService,
+    vipCart,
+    getHongbaoNum,
+    getExpired,
+    exChangeHongbao,
+    getUser,
+    sendLogin,
+    getOrderList,
+    getOrderDetail,
+    getAddressList,
+    getSearchAddress,
+    deleteAddress
+}
+
+
+export const setStorage = (key, value) => {
+    if (!key) return
+    if (typeof value !== 'string')
+        value = JSON.stringify(value)
+    window.localStorage.setItem(key, value)
+}
+
+export const getStorage = key => {
+    return window.localStorage.getItem(key)
+}
+
+export const removeStorage = key => {
+    window.localStorage.removeItem(key)
 }

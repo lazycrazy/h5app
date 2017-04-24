@@ -33,7 +33,7 @@
 		props: {
 			signInUp: {
 				type: Boolean,
-				default: true
+				default: false
 			},
 			headTitle: {
 				type: String,
@@ -83,7 +83,7 @@
 		right: .55rem;
 		@mixin sc 0.65rem,
 		#fff;
-		@mixin ct;
+		@mixin vc;
 		.login_span {
 			color: #fff;
 		}

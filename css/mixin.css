@@ -13,13 +13,13 @@ $color {
 	color: $color;
 }
 
-@define-mixin ct {
+@define-mixin vc {
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
 }
 
-@define-mixin cl {
+@define-mixin vh {
 	position: absolute;
 	left: 50%;
 	transform: translateX(-50%);

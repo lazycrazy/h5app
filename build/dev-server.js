@@ -7,7 +7,9 @@ var webpack = require('webpack')
 var opn = require('opn')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.config')
- 
+webpackConfig.entry['index'] = ['./build/dev-client'].concat(webpackConfig.entry['index'])
+
+webpackConfig.plugins.splice(5, 0, new webpack.HotModuleReplacementPlugin())
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port

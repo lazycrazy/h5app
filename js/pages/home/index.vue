@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<HeadTop headTitle='首页'>
+		<HeadTop headTitle='首页' :signInUp='true'>
 			<span slot='logo' class="head_logo" @click="reload">ele.me</span>
 		</HeadTop>
 		<nav class='nav_city'>
@@ -40,15 +40,15 @@
 </template>
 
 <script>
-	import HeadTop from '../../components/header/head'
-	import Icon from '../../components/icon'
-	import { cityGuess, hotcity, groupcity } from '../../service'
+	import HeadTop from 'components/header'
+	import Icon from 'components/icon'
+	import { cityGuess, hotcity, groupcity } from 'src/service'
 	export default {
 		name: 'home',
 		data() {
 			return {
-				guessCity: '任丘',
-				guessCityId: '123',
+				guessCity: null,
+				guessCityId: null,
 				hotcity: [],
 				groupcity: {},
 			}
@@ -99,7 +99,7 @@
 		#fff;
 		@mixin wh 2.3rem,
 		0.7rem;
-		@mixin ct;
+		@mixin vc;
 	}
 	
 	.nav_city {
@@ -127,7 +127,7 @@
 			height: 1.8rem;
 			padding: 0 0.45rem;
 			border-top: 1px solid $bc;
-			border-bottom:2px solid $bc;
+			border-bottom: 2px solid $bc;
 			@mixin font 0.75rem,
 			1.8rem;
 			span:nth-of-type(1) {
@@ -177,13 +177,14 @@
 			#999;
 		}
 	}
-	.letter_classify_li{
+	
+	.letter_classify_li {
 		margin-bottom: 0.4rem;
-		background-color:#fff;
+		background-color: #fff;
 		border-bottom: 1px solid $bc;
-		.lettercity{
-			li{
-				color:#666;
+		.lettercity {
+			li {
+				color: #666;
 			}
 		}
 	}

@@ -7,9 +7,9 @@ import App from '../App'
 //import city from '../pages/city/city'
  
 
-const home = () => import(/* webpackChunkName: "home" */ '../pages/home/home')
-const scan = () => import(/* webpackChunkName: "scan" */ '../pages/scan/scan')
-const city = () => import(/* webpackChunkName: "city" */ '../pages/city/city')
+const home = () => import(/* webpackChunkName: "home" */ 'src/pages/home')
+const scan = () => import(/* webpackChunkName: "scan" */ 'src/pages/scan')
+const city = () => import(/* webpackChunkName: "city" */ 'src/pages/city')
 
 Vue.use(VueRouter)
 

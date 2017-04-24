@@ -22,7 +22,7 @@ module.exports = {
 		]
 	},
 	output: {
-		filename: '[name].[chunkhash].js',
+		filename: process.env.NODE_ENV === config.dev.env.NODE_ENV ? '[name].[hash].js' : '[name].[chunkhash].js',
 		path: config.build.assetsRoot,
 		publicPath: config.build.assetsPublicPath
 	},
@@ -65,15 +65,16 @@ module.exports = {
 	resolve: {
 		extensions: ['.js', '.vue', '.css'],
 		alias: {
-			'vue$': 'vue/dist/vue.common.js'
-			//					'src': path.resolve(__dirname, '../src'),
-			//					'assets': path.resolve(__dirname, '../src/assets'),
-			//					'components': path.resolve(__dirname, '../src/components')
+			vue$: 'vue/dist/vue.common.js',
+			src: path.resolve(__dirname, '../js'),
+			css: path.resolve(__dirname, '../css'),
+			assets: path.resolve(__dirname, '../static'),
+			components: path.resolve(__dirname, '../js/components')
 		}
 	},
 	devtool: process.env.NODE_ENV === config.dev.env.NODE_ENV ? '#eval-source-map' : 'source-map',
 	plugins: [
-//		new BundleAnalyzerPlugin(),
+		//		new BundleAnalyzerPlugin(),
 		new webpack.DefinePlugin({
 			'process.env': {
 				NODE_ENV: `'${process.env.NODE_ENV}'`
@@ -85,7 +86,7 @@ module.exports = {
 		new HTMLPlugin({
 			template: 'index.html'
 		}),
-		new ExtractTextPlugin('[name].[hash].css'),
+		new ExtractTextPlugin('[name].[contenthash].css'),
 		new webpack.optimize.OccurrenceOrderPlugin(),
 		new UglifyJSPlugin({
 			sourceMap: true

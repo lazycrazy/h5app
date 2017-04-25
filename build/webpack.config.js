@@ -47,10 +47,10 @@ module.exports = {
 			},
 			{
 				test: /\.css$/,
-				exclude: /node_modules/,
+				// exclude: /node_modules/,
 				use: ExtractTextPlugin.extract({
 					fallback: "style-loader",
-					use: ["css-loader", "postcss-loader"]
+					use: ["css-loader"]
 				})
 			},
 			{
@@ -67,7 +67,6 @@ module.exports = {
 		alias: {
 			vue$: 'vue/dist/vue.common.js',
 			src: path.resolve(__dirname, '../js'),
-			css: path.resolve(__dirname, '../css'),
 			assets: path.resolve(__dirname, '../static'),
 			components: path.resolve(__dirname, '../js/components')
 		}

@@ -60,7 +60,7 @@
 	}
 </script>
 <style scoped>
-	@import '../../../css/mixin.css';
+	@import 'mixin.css';
 	#head_top {
 		background-color: $blue;
 		position: fixed;

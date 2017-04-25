@@ -10,6 +10,7 @@ import App from '../App'
 const home = () => import(/* webpackChunkName: "home" */ 'src/pages/home')
 const scan = () => import(/* webpackChunkName: "scan" */ 'src/pages/scan')
 const city = () => import(/* webpackChunkName: "city" */ 'src/pages/city')
+const msite = () => import(/* webpackChunkName: "city" */ 'src/pages/msite')
 
 Vue.use(VueRouter)
 
@@ -32,6 +33,10 @@ export default new VueRouter({
 			{
 				path: '/city/:id',
 				component: city
+			},
+			{
+				path:'msite',
+				component:msite
 			}
 		]
 	}]

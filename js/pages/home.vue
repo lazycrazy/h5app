@@ -1,20 +1,20 @@
 <template>
 	<div>
 		<HeadTop headTitle='首页' :signInUp='true'>
-			<span slot='logo' class="head_logo" @click="reload">ele.me</span>
+			<span slot='logo' class="head-top" @click="reload">ele.me</span>
 		</HeadTop>
-		<nav class='nav_city'>
-			<div class="city_tip">
+		<nav class='nav-city'>
+			<div class="city-tip">
 				<span>当前定位城市：</span>
 				<span>定位不准时，请选择所在城市</span>
 			</div>
-			<router-link :to="'/city/'+guessCityId" class='city_guess'>
+			<router-link :to="'/city/'+guessCityId" class='city-guess'>
 				<span>{{guessCity}}</span>
-				<icon name='arrow-right' class='arrow_right'></icon>
+				<icon name='arrow-right' class='arrow-right'></icon>
 			</router-link>
 		</nav>
-		<section id='hot_city_container'>
-			<h4 class='city_title'>热门城市</h4>
+		<section id='hot-city-container'>
+			<h4 class='city-title'>热门城市</h4>
 			<ul class='citylist clear'>
 				<router-link tag='li' v-for="item of hotcity" :to="'/city/' + item.id" :key='item.id'>
 					{{item.name}}
@@ -22,10 +22,10 @@
 			</ul>
 		</section>
 
-		<section class='group_city_container'>
+		<section class='group-city-container'>
 			<ul>
-				<li v-for='(val,key,index) of sortedgroupcity' :key='key' class='letter_classify_li'>
-					<h4 class='city_title'>
+				<li v-for='(val,key,index) of sortedgroupcity' :key='key' class='letter-classify-li'>
+					<h4 class='city-title'>
 						{{key}}
 						<span v-if='index===0'>
 		 				(按字母排序)
@@ -91,8 +91,8 @@
 	}
 </script>
 <style scoped>
-	@import '../../../css/mixin.css';
-	.head_logo {
+	@import 'mixin.css';
+	.head-top {
 		left: 0.4rem;
 		font-weight: 400;
 		@mixin sc 0.7rem,
@@ -102,12 +102,12 @@
 		@mixin vc;
 	}
 	
-	.nav_city {
+	.nav-city {
 		padding-top: 2.35rem;
 		border-top: 1px solid $bc;
 		background-color: #fff;
 		margin-bottom: .4rem;
-		.city_tip {
+		.city-tip {
 			@mixin fj;
 			line-height: 1.45rem;
 			padding: 0 0.45rem;
@@ -121,7 +121,7 @@
 				#9f9f9f;
 			}
 		}
-		.city_guess {
+		.city-guess {
 			@mixin fj;
 			align-items: center;
 			height: 1.8rem;
@@ -133,7 +133,7 @@
 			span:nth-of-type(1) {
 				color: $blue;
 			}
-			.arrow_right {
+			.arrow-right {
 				@mixin wh .6rem,
 				.6rem;
 				fill: #999;
@@ -141,7 +141,7 @@
 		}
 	}
 	
-	#hot_city_container {
+	#hot-city-container {
 		background-color: #fff;
 		margin-bottom: 0.4rem;
 	}
@@ -163,7 +163,7 @@
 		}
 	}
 	
-	.city_title {
+	.city-title {
 		color: #666;
 		font-weight: 400;
 		text-indent: 0.45rem;
@@ -178,7 +178,7 @@
 		}
 	}
 	
-	.letter_classify_li {
+	.letter-classify-li {
 		margin-bottom: 0.4rem;
 		background-color: #fff;
 		border-bottom: 1px solid $bc;

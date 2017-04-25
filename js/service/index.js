@@ -42,7 +42,7 @@ let hotcity = () => Promise.resolve(home.hotcity)
 let groupcity = () => Promise.resolve(home.groupcity)
 let currentcity = number => Promise.resolve(city.currentcity)
 let searchplace = (cityid, value) => Promise.resolve(city.searchdata)
-let msiteAdress = geohash => Promise.resolve(msite.msiteAdress)
+let msiteAddress = geohash => Promise.resolve(msite.msiteAdress)
 let msiteFoodTypes = geohash => Promise.resolve(msite.foodTypes)
 let shopList = (latitude, longitude, offset) => Promise.resolve(msite.shopList)
 let searchRestaurant = (geohash, keyword) => Promise.resolve(search.searchData)
@@ -99,7 +99,7 @@ export {
     groupcity,
     currentcity,
     searchplace,
-    msiteAdress,
+    msiteAddress,
     msiteFoodTypes,
     shopList,
     searchRestaurant,
@@ -148,7 +148,7 @@ export const setStorage = (key, value) => {
 }
 
 export const getStorage = key => {
-    return window.localStorage.getItem(key)
+    return JSON.parse(window.localStorage.getItem(key))
 }
 
 export const removeStorage = key => {

@@ -2,12 +2,18 @@
 babel
 不要文件中只有export * from ...
 "transform-runtime","transform-object-rest-spread"
+export  与 export default 区别 
+export default命令其实只是输出一个叫做default的变量，所以它后面不能跟变量声明语句。
+export default 对应 无括号变量,export 需要{...} 来导入，不然会无法正常导入   
 
+webpack
+exclude 用到的目录需要过滤掉
 
 vue
 vue 组件 字面量语法 vs 动态语法    如果想传递一个实际的number，需要使用 v-bind ，从而让它的值被当作 JavaScript 表达式计算
 计算属性默认只有getter，可以加setter 计算属性是缓存的，依赖的值变动才重新计算，与watch是有区别的，但watch属性可以添加一些自定义的操作
 定义组件属性时，慎用箭头函数，this会指向错误undefined
+swiper组件 尽量最后来初始化组件，保证控件正确，vue中使用异步钩子时候需要注意
 
 css
 press 

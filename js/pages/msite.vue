@@ -29,6 +29,8 @@
                 <div class="swiper-pagination"></div>
             </div>
         </nav>
+        <ShopList :geohash='geohash'></ShopList>
+        <FootGuide></FootGuide>
     </div>
 </template>
 <script>
@@ -55,18 +57,22 @@ import {
     SET_GEOHASH
 } from 'src/store/mutation-types'
 
+import FootGuide from 'components/footer'
+import ShopList from 'components/shoplist'
+
 export default {
     name: "Msite",
     components: {
         HeadTop,
-        Icon
+        Icon,
+        FootGuide,
+        ShopList
     },
     data() {
         return {
             msiteTitle: '',
             geohash: '',
             foodTypes: [],
-            hasGetData: false,
             imgBaseUrl,
         }
     },
@@ -85,7 +91,6 @@ export default {
         let location = await msiteAddress(this.geohash)
         this.msiteTitle = location.name
         this.SET_LOCATION(location)
-        this.hasGetData = true
     },
     async mounted() {
         let foodTypes = await msiteFoodTypes(this.geohash)
@@ -160,4 +165,5 @@ export default {
         }
     }
 }
+
 </style>

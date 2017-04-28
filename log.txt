@@ -14,6 +14,7 @@ vue 组件 字面量语法 vs 动态语法    如果想传递一个实际的numb
 计算属性默认只有getter，可以加setter 计算属性是缓存的，依赖的值变动才重新计算，与watch是有区别的，但watch属性可以添加一些自定义的操作
 定义组件属性时，慎用箭头函数，this会指向错误undefined
 swiper组件 尽量最后来初始化组件，保证控件正确，vue中使用异步钩子时候需要注意
+需要操作dom可以使用ref
 
 css
 press 
@@ -26,9 +27,23 @@ li 垂直对齐， 设置height 和line-height 相同， 因为文字在line-hei
 指定类型时 ele:nth-child(n)要求不仅仅是第n个子元素，并且这个子元素的标签是ele   ele:nth-of-type(n)选择的是父元素下ele标签的第二个
 ele:last-child选中父元素下最后一个子元素，并且该子元素的标签必须为ele，否则一个都不选中。ele:last-of-type选中父元素下ele标签的最后一个
 background:transparent 意思就是背景透明 实际上background默认的颜色就是透明的属性。所以写和不写都是一样的
-
+子组件需要符合flex的设置，别忘记displace:flex
+justify-content  align-content align-items align-content属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。
+flex 是 flex-grow、flex-shrink、flex-basis的缩写 默认 0 1 auto;
+flex-basis 基准值 
+flex:1; 1 1 0%   基准值的百分比为元素宽度*百分比 也就是0 
+flex:auto;1 1 auto
+flex:none; 0 0 auto
+使用rem时，注意document.documentElement.style.fontSize的不同
 
 
 other
 http://editor.method.ac/ svg 在线编辑转换工具
 可以用svg文件浏览器查看
+
+
+
+心平气和
+快来休息一会
+不努力会越来越痛苦
+有目标才忘我

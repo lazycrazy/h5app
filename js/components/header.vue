@@ -20,7 +20,7 @@
 </template>
 
 <script>
-	import Icon from '../icon'
+	import Icon from './icon'
 	import { mapState, mapActions } from 'vuex'
 	export default {
 		name: 'HeadTop',
@@ -64,7 +64,7 @@
 	#head_top {
 		background-color: $blue;
 		position: fixed;
-		/*z-index: 100;*/
+		z-index: 100;
 		left: 0;
 		top: 0;
 		@mixin wh 100%,

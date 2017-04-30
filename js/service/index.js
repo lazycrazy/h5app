@@ -18,9 +18,9 @@ import _ from 'lodash'
 //初始化数据到websqldb
 //import da from '../websql-da'
 //let city = _(home.groupcity).values().flatten().map(o => {
-//	o.hotcity = home.hotcity.some(h => h.id === o.id)
-//	o.default_city = o.id === home.guesscity.id
-//	return o
+//  o.hotcity = home.hotcity.some(h => h.id === o.id)
+//  o.default_city = o.id === home.guesscity.id
+//  return o
 //}).uniqBy('id').value()
 //da.createTable('city', Object.keys(city[0]))
 //da.addRows('city', city)
@@ -44,7 +44,10 @@ let currentcity = number => Promise.resolve(city.currentcity)
 let searchplace = (cityid, value) => Promise.resolve(city.searchdata)
 let msiteAddress = geohash => Promise.resolve(msite.msiteAdress)
 let msiteFoodTypes = geohash => Promise.resolve(msite.foodTypes)
-let shopList = (latitude, longitude, offset) => Promise.resolve(msite.shopList)
+let shopList = (latitude, longitude, offset, limit) => {
+    let r = msite.shopList.slice(offset, offset + limit)
+    return Promise.resolve(r)
+}
 let searchRestaurant = (geohash, keyword) => Promise.resolve(search.searchData)
 let foodCategory = (latitude, longitude) => Promise.resolve(food.category)
 let foodDelivery = (latitude, longitude) => Promise.resolve(food.delivery)

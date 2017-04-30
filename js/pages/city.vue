@@ -80,7 +80,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 @import 'mixin.css';
 .city-container {
     padding-top: 2.35rem;

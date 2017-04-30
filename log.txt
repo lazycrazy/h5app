@@ -10,6 +10,7 @@ webpack
 exclude 用到的目录需要过滤掉
 
 vue
+组件只能有一个根节点
 vue 组件 字面量语法 vs 动态语法    如果想传递一个实际的number，需要使用 v-bind ，从而让它的值被当作 JavaScript 表达式计算
 计算属性默认只有getter，可以加setter 计算属性是缓存的，依赖的值变动才重新计算，与watch是有区别的，但watch属性可以添加一些自定义的操作
 定义组件属性时，慎用箭头函数，this会指向错误undefined
@@ -36,14 +37,21 @@ flex:auto;1 1 auto
 flex:none; 0 0 auto
 使用rem时，注意document.documentElement.style.fontSize的不同
 
+js
+函数调用无返回值，注意是否箭头函数未return值
+动画
+css3实现  动画属性值发生变化   scrollTop值不属于动画属性支持的值  借助锚点元素实现滚动 css3 :target伪类可以设置当前锚样式，则可以定义动画
+js实现  setInterval requestAnimationFrame
+vue实现 基于css和js动画的封装 复杂的功能可以通过css或js动画库
 
 other
 http://editor.method.ac/ svg 在线编辑转换工具
 可以用svg文件浏览器查看
 
-
-
+饿了么前端项目完成，达到前端技术全面实践
+前端项目-总结(架构,css,js,swiper,scroll,animate)-nodejs-后端项目总结
 心平气和
-快来休息一会
+来休息一会
 不努力会越来越痛苦
 有目标才忘我
+英文学习持续

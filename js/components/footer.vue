@@ -121,26 +121,42 @@
                 </symbol>
             </defs>
         </svg>
-        <a href="/a">
-            <Icon name='msite' class='icon'></Icon>
-            <span>外卖</span></a>
-        <a href="/b">
-            <Icon name='find' class='icon'></Icon>
-            <span>搜索</span></a>
-        <a href="/c">
-            <Icon name='order' class='icon'></Icon>
-            <span>订单</span></a>
-        <a href="/d">
-            <Icon name='profile' class='icon'></Icon>
-            <span>我的</span></a>
+        <router-link :to="{path: '/msite', query: {geohash}}">
+            <Icon :name="$route.path.includes('msite')?'msiteActive':'msite'" class='icon'></Icon>
+            <span>外卖</span>
+        </router-link>
+        <router-link :to="'/search/'+geohash">
+            <Icon :name="$route.path.includes('search')?'findActive':'find'" class='icon'></Icon>
+            <span>搜索</span>
+        </router-link>
+        <router-link :to="'/order'">
+            <Icon :name="$route.path.includes('order')?'orderActive':'order'" class='icon'></Icon>
+            <span>订单</span>
+        </router-link>
+        <router-link :to="'/profile'">
+            <Icon :name="$route.path.includes('profile')?'profileActive':'profile'" class='icon'></Icon>
+            <span>我的</span>
+        </router-link>
     </footer>
 </template>
 <script>
 import Icon from './icon'
+import {
+    mapState
+} from 'vuex'
 export default {
     name: 'FootGuide',
     components: {
         Icon
+    },
+    computed: {
+        ...mapState(['geohash'])
+    },
+    methods: {
+        goto(url) {
+            //url 可以是字符串或对象
+            this.$router.push(url)
+        }
     }
 }
 </script>

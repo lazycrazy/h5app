@@ -4,41 +4,47 @@
             <Icon name='shop' class='icon'></Icon>
             <span>推荐商家</span>
         </header>
-        <router-link v-for='shop of shopList' :to="{path:'shop',query:{geohash,id:shop.id}}" tag='section' :key='shop.id' class='shop'>
-            <img :src="getImagePath(shop.image_path)" class='shop-img'>
-            <div class='shop-desc'>
-                <section>
-                    <h3 :class="shop.is_premium?'premium':''" class='ellipsis premium'>{{shop.name}}</h3>
-                    <ul>
-                        <li v-for='item of shop.supports' :key='item.id'>{{item.icon_name}}</li>
-                    </ul>
-                </section>
-                <section>
-                    <div>
-                        <Rating :rating='shop.rating'></Rating>
-                        <span class="rating-num">{{shop.rating}}</span>
-                        <span>月售{{shop.recent_order_num}}单</span>
-                    </div>
-                    <div v-if='shop.delivery_mode'>
-                        <span class='delivery'>{{shop.delivery_mode.text}}</span>
-                        <span class='delivery'>准时达</span>
-                    </div>
-                </section>
-                <section>
-                    <div class='money-limit'>
-                        <span>¥{{shop.float_minimum_order_amount}}起送</span>
-                        <span>{{shop.piecewise_agent_fee.tips}}</span>
-                    </div>
-                    <div class='time-distance'>
-                        <span>{{shop.distance > 1000? (shop.distance/1000).toFixed(2) + 'km': shop.distance + 'm'}}</span>
-                        <span class="order_time">{{shop.order_lead_time}}分钟</span>
-                    </div>
-                </section>
-            </div>
-        </router-link>
-        <div class='back-top' @click='backTop' v-if='showBackTop'>
+        <ul v-load-more='loadMore'>
+            <router-link v-for='shop of shopList' :to="{path:'shop',query:{geohash,id:shop.id}}" tag='section' :key='shop.id' class='shop'>
+                <img :src="getImagePath(shop.image_path)" class='shop-img'>
+                <div class='shop-desc'>
+                    <section>
+                        <h3 :class="shop.is_premium?'premium':''" class='ellipsis premium'>{{shop.name}}</h3>
+                        <ul>
+                            <li v-for='item of shop.supports' :key='item.id'>{{item.icon_name}}</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <div>
+                            <Rating :rating='shop.rating'></Rating>
+                            <span class="rating-num">{{shop.rating}}</span>
+                            <span>月售{{shop.recent_order_num}}单</span>
+                        </div>
+                        <div v-if='shop.delivery_mode'>
+                            <span class='delivery'>{{shop.delivery_mode.text}}</span>
+                            <span class='delivery'>准时达</span>
+                        </div>
+                    </section>
+                    <section>
+                        <div class='money-limit'>
+                            <span>¥{{shop.float_minimum_order_amount}}起送</span>
+                            <span>{{shop.piecewise_agent_fee.tips}}</span>
+                        </div>
+                        <div class='time-distance'>
+                            <span>{{shop.distance > 1000? (shop.distance/1000).toFixed(2) + 'km': shop.distance + 'm'}}</span>
+                            <span class="order_time">{{shop.order_lead_time}}分钟</span>
+                        </div>
+                    </section>
+                </div>
+            </router-link>
+        </ul>
+        <div class='back-top' @click='backTop' v-show='showBackTop'>
             <Icon name='backtop' class='back-top'></Icon>
         </div>
+        <footer class='load-more' v-show='showLoading'>正在加载更多商家...</footer>
+        <transition name='loading'>
+            <Loading v-show='showLoading'></Loading>
+        </transition>
     </section>
 </template>
 <script>
@@ -50,15 +56,22 @@ import {
     mapState
 } from 'vuex'
 import {
-    getImagePath
+    getImagePath,
+    loadMore
 } from './mixin'
 import Rating from './rating'
+import Loading from './loading'
+import infiniteScroll from 'vue-infinite-scroll'
 
 export default {
     name: 'ShopList',
     components: {
         Icon,
-        Rating
+        Rating,
+        Loading
+    },
+    directives: {
+        infiniteScroll
     },
     props: ['geohash'],
     data() {
@@ -66,36 +79,69 @@ export default {
             offset: 0,
             showLoading: false,
             shopList: [],
+            showBackTop: false,
+            noMore: false,
         }
     },
     computed: {
         ...mapState(['latitude', 'longitude']),
-        showBackTop() {
-            document.body.scrollTop > 300
-        }
+
+    },
+    watch: {
+
     },
     async mounted() {
-        let list = await shopList(this.latitude, this.longitude, this.offset, this.restaurationCategoryId)
-        this.shopList = [...list]
+        await this.loadRestauration()
+        document.addEventListener('scroll', this.listenScroll, false)
+    },
+    beforeDestroy() {
+        document.removeEventListener('scroll', this.listenScroll, false)
     },
     methods: {
+        async loadRestauration() {
+            if (this.showLoading) return
+            this.showLoading = true
+            let r = await shopList(this.latitude, this.longitude, this.offset, 10, this.restaurationCategoryId)
+            this.noMore = r.length === 0
+            this.shopList.push(...r)
+            this.offset += 10
+            this.hideLoading()
+        },
+        async loadMore() {
+            if (this.noMore) return
+            await this.loadRestauration()
+        },
+        listenScroll() {
+            this.showBackTop = document.body.scrollTop > 500
+        },
         hideLoading() {
-            if (process.env.NODE_ENV != 'development') {
-                clearTimeout(this.timer)
-                this.timer = setTimeout(() => {
-                    clearTimeout(this.time)
+            // if (process.env.NODE_ENV != 'development') {
+            clearTimeout(this.timer)
+            this.timer = setTimeout(() => {
+                    clearTimeout(this.timer)
                     this.showLoading = false
                 }, 500)
-            } else
-                this.showLoading = false;
+                // } else
+                //     this.showLoading = true;
         },
         backTop() {
             // animate(document.body, {
             //     scrollTop: '0'
-            // }, 400, 'ease-out');
+            // }, 400, 'ease-out')
+            let speed = 10;
+            let timer = setInterval(function() {
+                let top = document.body.scrollTop
+                if (top > 0) {
+                    document.body.scrollTop = top - speed > 0 ? top - speed : 0;
+                    speed += 20;
+                } else {
+                    clearInterval(timer);
+                }
+            }, 16)
         }
     },
-    mixins: [getImagePath]
+    mixins: [getImagePath, loadMore],
+
 }
 </script>
 <style scoped>
@@ -104,6 +150,7 @@ export default {
     margin-top: 0.4rem;
     border-top: 0.025rem solid #eee;
     background-color: #fff;
+    margin-bottom: 2rem;
     header {
         border-bottom: 0.025rem solid #eee;
         .icon {
@@ -130,7 +177,7 @@ export default {
         .shop-img {
             @mixin wh 3rem,
             3rem;
-            padding: .4rem .3rem;
+            margin: .4rem .4rem;
             border-radius: 0.05rem;
         }
         .shop-desc {
@@ -220,6 +267,12 @@ export default {
         @mixin fj center;
         @mixin wh 2rem,
         2rem;
+    }
+    .load-more {
+        @mixin font 0.6rem,
+        3;
+        text-align: center;
+        color: #999;
     }
 }
 </style>

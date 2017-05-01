@@ -42,14 +42,18 @@ let hotcity = () => Promise.resolve(home.hotcity)
 let groupcity = () => Promise.resolve(home.groupcity)
 let currentcity = number => Promise.resolve(city.currentcity)
 let searchplace = (cityid, value) => Promise.resolve(city.searchdata)
-let msiteAddress = geohash => Promise.resolve(msite.msiteAdress)
+let msiteAddress = geohash => {
+    return Promise.resolve(msite.msiteAdress)
+}
 let msiteFoodTypes = geohash => Promise.resolve(msite.foodTypes)
 let shopList = (latitude, longitude, offset, limit) => {
     let r = msite.shopList.slice(offset, offset + limit)
     return Promise.resolve(r)
 }
 let searchRestaurant = (geohash, keyword) => Promise.resolve(search.searchData)
-let foodCategory = (latitude, longitude) => Promise.resolve(food.category)
+let foodCategory = (latitude, longitude) => {
+    return Promise.resolve(food.category)
+}
 let foodDelivery = (latitude, longitude) => Promise.resolve(food.delivery)
 let foodActivity = (latitude, longitude) => Promise.resolve(food.activity)
 let shopDetails = (shopid, latitude, longitude) => Promise.resolve(shop.shopDetails)

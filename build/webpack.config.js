@@ -88,7 +88,7 @@ module.exports = {
 		new ExtractTextPlugin('[name].[contenthash].css'),
 		new webpack.optimize.OccurrenceOrderPlugin(),
 		new UglifyJSPlugin({
-			sourceMap: true
+			sourceMap: false
 		}),
 		new webpack.LoaderOptionsPlugin({
 			minimize: true

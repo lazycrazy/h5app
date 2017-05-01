@@ -14,13 +14,17 @@ const scan = () =>
 const city = () =>
     import ( /* webpackChunkName: "city" */ 'src/pages/city')
 const msite = () =>
-    import ( /* webpackChunkName: "city" */ 'src/pages/msite')
+    import ( /* webpackChunkName: "msite" */ 'src/pages/msite')
 const search = () =>
-    import ( /* webpackChunkName: "city" */ 'src/pages/search')
+    import ( /* webpackChunkName: "search" */ 'src/pages/search')
 const order = () =>
-    import ( /* webpackChunkName: "city" */ 'src/pages/order')
+    import ( /* webpackChunkName: "order" */ 'src/pages/order')
 const profile = () =>
-    import ( /* webpackChunkName: "city" */ 'src/pages/profile')
+    import ( /* webpackChunkName: "profile" */ 'src/pages/profile')
+const food = () =>
+    import ( /* webpackChunkName: "food" */ 'src/pages/food')
+
+
 Vue.use(VueRouter)
 
 export default new VueRouter({
@@ -51,6 +55,9 @@ export default new VueRouter({
         }, {
             path: '/order',
             component: order
-        }]
+        }, {
+            path: '/food',
+            component: food
+        }, ]
     }]
 })

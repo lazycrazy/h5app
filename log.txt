@@ -36,6 +36,17 @@ flex:1; 1 1 0%   基准值的百分比为元素宽度*百分比 也就是0
 flex:auto;1 1 auto
 flex:none; 0 0 auto
 使用rem时，注意document.documentElement.style.fontSize的不同
+css选择器机制，从右向左
+1.id选择器（#myid）
+2.类选择器（.myclassname）
+3.标签选择器（div,h1,p）
+4.相邻选择器（h1+p）
+5.子选择器（ul < li）
+6.后代选择器（li a）
+7.通配符选择器（*）
+8.属性选择器（a[rel="external"]）
+9.伪类选择器（a:hover, li:nth-child）
+
 
 js
 函数调用无返回值，注意是否箭头函数未return值

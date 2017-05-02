@@ -6,19 +6,19 @@
                 <div class='sort-title'>
                     <a @click="chooseType('food')" class='title-item' :class="{choose_type:sortBy==='food'}">
                         <span :class="{category_title:sortBy === 'food'}">{{foodTitle}}</span>
-                        <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" version="1.1" class="sort_icon">
+                        <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" version="1.1" class="sort-icon">
                             <polygon points="0,3 10,3 5,8" />
                         </svg>
                     </a>
                     <a @click="chooseType('sort')" class='title-item' :class="{choose_type:sortBy === 'sort'}">
                         <span :class="{category_title:sortBy === 'sort'}">排序</span>
-                        <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" version="1.1" class="sort_icon">
+                        <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" version="1.1" class="sort-icon">
                             <polygon points="0,3 10,3 5,8" />
                         </svg>
                     </a>
-                    <a @click="chooseType('activity')" class='title-item' :class="{choose_type:sortBy === 'activity'}">
-                        <span :class="{category_title:sortBy === 'activity'}">筛选</span>
-                        <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" version="1.1" class="sort_icon">
+                    <a @click="chooseType('activity')" class='title-item' :class="{choose_type:sortBy === 'activity'|| filterCount > 0}">
+                        <span :class="{category_title:sortBy === 'activity' || filterCount > 0}">筛选</span>
+                        <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" version="1.1" class="sort-icon">
                             <polygon points="0,3 10,3 5,8" />
                         </svg>
                     </a>
@@ -28,7 +28,7 @@
                         <div class='category-container'>
                             <div class='category-left'>
                                 <ul>
-                                    <li class='category-left-li' :class="{category_active:restaurant_category_id == item.id}" v-for='(item,index) of category' :key='index'>
+                                    <li class='category-left-li' :class="{category_active:restaurant_category_id == item.id}" v-for='(item,index) of category' :key='index' @click='selectCategoryName(item.id,index)'>
                                         <div>
                                             <img :src="getImagePath(item.image_url)" v-if='index' class="category-icon">
                                             <span class='category-name'>{{item.name}}</span>
@@ -44,7 +44,7 @@
                             </div>
                             <div class='category-right'>
                                 <ul>
-                                    <li class='category-detail-li' :class="{category_detail_choosed: restaurant_category_ids == item.id || (!restaurant_category_ids)&&index == 0}" v-for='(item,index) of categoryDetail' :key='item.id'>
+                                    <li class='category-detail-li' :class="{category_detail_choosed: restaurant_category_detail_id == item.id || (!restaurant_category_detail_id)&&index == 0}" v-for='(item,index) of categoryDetail' :key='item.id' @click='setCategoryDetailId(item.id,item.name)'>
                                         <span>{{item.name}}</span>
                                         <span>{{item.count}}</span>
                                     </li>
@@ -58,9 +58,9 @@
                         <ul class="sort-list-container" @click="sortList($event)">
                             <li class="sort-list-li" v-for="item of [{idx:0,name:'default',desc:'智能排序'},{idx:5,name:'distance',desc:'距离最近'},{idx:6,name:'hot',desc:'销量最高'},{idx:1,name:'price',desc:'起送价最低'},{idx:2,name:'speed',desc:'配送速度最快'},{idx:3,name:'rating',desc:'评分最高'}]">
                                 <Icon :name='item.name'></Icon>
-                                <p data="0" :class="{sort_select: sortByType == item.idx}">
+                                <p :data="item.idx" :class="{sort_selected: sortByType == item.idx}">
                                     <span>{{item.desc}}</span>
-                                    <Icon name='selected' v-if="sortByType == item.idx"></Icon>
+                                    <Icon name='selected' class='sort-selected-icon' v-if="sortByType == item.idx"></Icon>
                                 </p>
                             </li>
                         </ul>
@@ -80,8 +80,8 @@
                         <section class='activity-type' style="100%">
                             <span>商家属性（可以多选）</span>
                             <ul class='activity-items'>
-                                <li v-for="(item,index) of activity" :key='item.id' @click='selectSupportIds(index,item.id)'>
-                                    <Icon name='selected' v-show="support_activity_ids[index].status"></Icon>
+                                <li v-for="(item,index) of activity" :key='item.id' @click='selectSupportIds(item.id,index)'>
+                                    <Icon name='selected' class='activity-icon' v-show="support_activity_ids[index].status"></Icon>
                                     <span class="activity-icon" :style="{color: '#' + item.icon_color, borderColor: '#' + item.icon_color}" v-show="!support_activity_ids[index].status">{{item.icon_name}}</span>
                                     <span :class="{selected_filter: support_activity_ids[index].status}">{{item.name}}</span>
                                 </li>
@@ -89,7 +89,7 @@
                         </section>
                         <footer class='filter-btns'>
                             <div class="clear-all filter-button" @click="clearAll">清空</div>
-                            <div class="confirm_select filter-button" @click="confirmSelect">确定<span v-show="filterNum">({{filterNum}})</span></div>
+                            <div class="confirm_select filter-button" @click="confirmSelect">确定<span v-show="filterCount">({{filterCount}})</span></div>
                         </footer>
                     </section>
                 </transition>
@@ -99,7 +99,7 @@
             <div class='back-cover' v-show='sortBy' @click="sortBy=''"></div>
         </transition>
         <section class='shop-list-container'>
-            <ShopList :geohash='geohash'></ShopList>
+            <ShopList :geohash="geohash" :restaurantCategoryId="restaurant_category_id" :restaurantCategoryDetailId="restaurant_category_detail_id" :sortByType='sortByType' :deliveryMode="delivery_mode" :confirmSelected="confirmStatus" :supportActivityIds="support_activity_ids" v-if="geohash"></ShopList>
         </section>
     </div>
 </template>
@@ -134,14 +134,16 @@ export default {
             sortBy: '',
             foodTitle: '',
             restaurant_category_id: '',
+            restaurant_category_detail_id: '',
             category_detail_choosed: '',
             category: null,
             categoryDetail: null,
             delivery: null,
             activity: null,
+            delivery_mode: null,
             support_activity_ids: [],
             sortByType: null,
-            filterNum: 0,
+            filterCount: 0,
             confirmStatus: false,
         }
     },
@@ -167,20 +169,49 @@ export default {
                     this.foodTitle = this.headTitle
             }
         },
+        selectCategoryName(id, idx) {
+            if (!idx) {
+                this.restaurant_category_ids = null;
+                this.sortBy = '';
+                return
+            }
+            this.restaurant_category_id = id
+            this.categoryDetail = this.category[idx].sub_categories;
+            // this.categoryDetail = this.category.find(c => c.id == id).sub_categories
+        },
+        setCategoryDetailId(id, name) {
+            this.restaurant_category_detail_id = id
+            this.sortBy = ''
+            this.foodTitle = this.headTitle = name
+        },
         clearAll() {
-
+            this.support_activity_ids.forEach(a => a.status = false)
+            this.delivery_mode = null
+            this.filterCount = 0
         },
         confirmSelect() {
-
+            this.confirmStatus = !this.confirmStatus
+            this.sortBy = ''
         },
-        sortList() {
-
+        sortList(event) {
+            this.sortByType = event.target.getAttribute('data')
+            this.sortBy = ''
         },
-        selectSupportIds() {
-
+        selectSupportIds(id, idx) {
+            this.support_activity_ids.splice(idx, 1, {
+                status: !this.support_activity_ids[idx].status,
+                id: id
+            });
+            this.filterCount = (this.delivery_mode == null ? 0 : 1) +
+                this.support_activity_ids.filter(i => i.status).length
         },
-        selectDeliveryMode() {
-
+        selectDeliveryMode(id) {
+            if (this.delivery_mode == null) {
+                this.filterCount++;
+            } else if (this.delivery_mode == id) {
+                this.filterCount--;
+            }
+            this.delivery_mode = this.delivery_mode == id ? null : id;
         }
     },
     async created() {
@@ -194,17 +225,21 @@ export default {
             this.SET_LOCATION(loc)
         }
         this.category = await foodCategory(this.latitude, this.longitude)
-        let categoryid = _(this.category).find(['id', this.restaurant_category_id])
+        let categoryid = this.category.find(c => c.id == this.restaurant_category_id)
         if (categoryid)
             this.categoryDetail = categoryid.sub_categories
         this.delivery = await foodDelivery(this.latitude, this.longitude)
         this.activity = await foodActivity(this.latitude, this.longitude)
-        for (let [idx, item] of this.activity.entries()) {
-            this.support_activity_ids[idx] = {
-                id: item.id,
+        this.support_activity_ids = this.activity.map((a) => ({
+                id: a.id,
                 status: false
-            }
-        }
+            }))
+            // for (let [idx, item] of this.activity.entries()) {
+            //     this.support_activity_ids[idx] = {
+            //         id: item.id,
+            //         status: false
+            //     }
+            // }
 
     }
 }
@@ -242,7 +277,7 @@ export default {
                 color: #666;
                 position: relative;
                 font-size: .6rem;
-                .sort_icon {
+                .sort-icon {
                     width: .4rem;
                     height: .3rem;
                     margin-bottom: .053333rem;
@@ -255,7 +290,7 @@ export default {
                 .category_title {
                     color: $blue;
                 }
-                .sort_icon {
+                .sort-icon {
                     transform: rotate(180deg);
                     fill: $blue;
                 }
@@ -367,7 +402,20 @@ export default {
         border-bottom: .025rem solid #e4e4e4;
         align-items: center;
         font-size: .6rem;
+        @mixin fj;
     }
+}
+
+.sort_selected {
+    >span {
+        color: #3190e8;
+    }
+}
+
+.sort-selected-icon {
+    @mixin wh .7rem,
+    .7rem;
+    padding: 0 .3rem 0 .8rem;
 }
 
 .delivery-type,
@@ -386,6 +434,7 @@ export default {
 .activity-items {
     display: flex;
     flex-wrap: wrap;
+    padding: 0 .4rem .4rem .4rem;
     >li {
         display: flex;
         align-items: center;
@@ -457,7 +506,7 @@ export default {
 
 .showcover-enter-active,
 .showcover-leave-active {
-    transition: opacity 3.3s
+    transition: opacity 1.3s
 }
 
 .showcover-enter,

@@ -73,7 +73,6 @@ export default {
     directives: {
         infiniteScroll
     },
-    props: ['geohash'],
     data() {
         return {
             offset: 0,
@@ -138,10 +137,19 @@ export default {
                     clearInterval(timer);
                 }
             }, 16)
-        }
+        },
+        async refreshList() {
+            this.offset = 0
+            await this.loadRestauration()
+        },
     },
     mixins: [getImagePath, loadMore],
-
+    props: ['restaurantCategoryId', 'restaurantCategoryDetailId', 'sortByType', 'deliveryMode', 'supportActivityIds', 'confirmSelected', 'geohash'],
+    watch: {
+        restaurantCategoryDetailId: 'refreshList',
+        sortByType: 'refreshList',
+        confirmSelected: 'refreshList',
+    }
 }
 </script>
 <style scoped>

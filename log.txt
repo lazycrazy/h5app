@@ -46,7 +46,7 @@ css选择器机制，从右向左
 7.通配符选择器（*）
 8.属性选择器（a[rel="external"]）
 9.伪类选择器（a:hover, li:nth-child）
-
+从复杂页面开发来看BEM命名方式编写css代码比嵌套更优
 
 js
 函数调用无返回值，注意是否箭头函数未return值
@@ -54,6 +54,7 @@ js
 css3实现  动画属性值发生变化   scrollTop值不属于动画属性支持的值  借助锚点元素实现滚动 css3 :target伪类可以设置当前锚样式，则可以定义动画
 js实现  setInterval requestAnimationFrame
 vue实现 基于css和js动画的封装 复杂的功能可以通过css或js动画库
+Array.find使用时注意比较数值时== ===区别，lodash find使用的isEqual内部使用的===
 
 other
 http://editor.method.ac/ svg 在线编辑转换工具

@@ -23,6 +23,14 @@ const profile = () =>
     import ( /* webpackChunkName: "profile" */ 'src/pages/profile')
 const food = () =>
     import ( /* webpackChunkName: "food" */ 'src/pages/food')
+const shop = () =>
+    import ( /* webpackChunkName: "shop" */ 'src/pages/shop')
+const shopDetail = () =>
+    import ( /* webpackChunkName: "shopDetail" */ 'src/pages/shop/shop-detail')
+const foodDetail = () =>
+    import ( /* webpackChunkName: "foodDetail" */ 'src/pages/shop/food-detail')
+const shopDetailSafe = () =>
+    import ( /* webpackChunkName: "shopDetailSafe" */ 'src/pages/shop/shop-detail-safe')
 
 
 Vue.use(VueRouter)
@@ -58,6 +66,20 @@ export default new VueRouter({
         }, {
             path: '/food',
             component: food
+        }, {
+            path: '/shop',
+            component: shop,
+            children: [{
+                path: 'shopDetail',
+                component: shopDetail,
+                children: [{
+                    path: 'shopDetailSafe',
+                    component: shopDetailSafe
+                }, ]
+            }, {
+                path: 'foodDetail',
+                component: foodDetail
+            }, ]
         }, ]
     }]
 })

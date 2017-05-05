@@ -59,6 +59,7 @@ import {
 
 import FootGuide from 'components/footer'
 import ShopList from 'components/shoplist'
+import Vue from 'vue'
 
 export default {
     name: "Msite",
@@ -99,11 +100,10 @@ export default {
         for (let c = 0; c < count; c++)
             newTypes.push(foodTypes.slice(c * 8, (c + 1) * 8))
         this.foodTypes = newTypes
-        await this.foodTypes
-        new Swiper('.swiper-container', {
+        Vue.nextTick(() => new Swiper('.swiper-container', {
             pagination: '.swiper-pagination',
             loop: true
-        })
+        }))
     },
 }
 </script>
@@ -165,5 +165,4 @@ export default {
         }
     }
 }
-
 </style>

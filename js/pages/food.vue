@@ -171,7 +171,7 @@ export default {
         },
         selectCategoryName(id, idx) {
             if (!idx) {
-                this.restaurant_category_ids = null;
+                this.restaurant_category_detail_id = null;
                 this.sortBy = '';
                 return
             }

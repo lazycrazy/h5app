@@ -1,4 +1,4 @@
-import 'src/css/common'
+
 import obj2string, {
 	InitApp
 } from './common'

@@ -4,7 +4,7 @@ import {
     REDUCE_CART,
     INIT_BUYCART,
     CLEAR_CART,
-    RECORD_SHOPDETAIL,
+    SET_SHOPDETAIL,
     RECORD_USERINFO,
     SET_USERINFO,
     CONFIRM_REMARK,
@@ -30,19 +30,80 @@ import {
     BUY_CART,
 } from './mutation-types.js'
 
+import { setStorage } from 'src/service'
+
 export default {
     [SET_LOCATION](state, { latitude, longitude }) {
         state.latitude = latitude
         state.longitude = longitude
     }, [SET_GEOHASH](state, geohash) {
         state.geohash = geohash
-    }, [SET_USERINFO](state, info) {
+    }, [SET_SHOPDETAIL](state, detail) {
+        state.shopDetail = detail
+    }, [ADD_CART](state, {
+        shopid,
+        category_id,
+        item_id,
+        food_id,
+        name,
+        price,
+        specs,
+        packing_fee,
+        sku_id,
+        stock
+    }) {
+        let cart = state.cartList
+        let shop = cart[shopid] = (cart[shopid] || {})
+        let category = shop[category_id] = (shop[category_id] || {})
+        let item = category[item_id] = (category[item_id] || {})
+        if (item[food_id]) {
+            item[food_id]['num']++
+        } else {
+            item[food_id] = {
+                "num": 1,
+                "id": food_id,
+                "name": name,
+                "price": price,
+                "specs": specs,
+                "packing_fee": packing_fee,
+                "sku_id": sku_id,
+                "stock": stock
+            }
+        }
+        state.cartList = {...cart }
+        setStorage('buycart', state.cartList)
+    }, [REDUCE_CART](state, {
+        shopid,
+        category_id,
+        item_id,
+        food_id,
+        name,
+        price,
+        specs,
+    }) {
+        let cart = state.cartList
+        let shop = (cart[shopid] || {})
+        let category = (shop[category_id] || {})
+        let item = (category[item_id] || {})
+        if (item && item[food_id]) {
+            if (item[food_id]['num'] > 0) {
+                item[food_id]['num']--
+            } else {
+                item[food_id] = null;
+            }
+            state.cartList = {...cart }
+            setStorage('buycart', state.cartList)
+        }
+    },
+
+
+    [SET_USERINFO](state, info) {
         if (state.userInfo && (state.userInfo.username !== info.username)) {
             return;
         };
-        //		if(!state.login) {
-        //			return
-        //		}
+        //      if(!state.login) {
+        //          return
+        //      }
         if (!info.message) {
             state.userInfo = {...info
             };

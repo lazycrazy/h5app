@@ -61,7 +61,6 @@ import {
 } from './mixin'
 import Rating from './rating'
 import Loading from './loading'
-import infiniteScroll from 'vue-infinite-scroll'
 
 export default {
     name: 'ShopList',
@@ -71,7 +70,6 @@ export default {
         Loading
     },
     directives: {
-        infiniteScroll
     },
     data() {
         return {
@@ -100,7 +98,7 @@ export default {
         async loadRestauration() {
             if (this.showLoading) return
             this.showLoading = true
-            let r = await shopList(this.latitude, this.longitude, this.offset, 10, this.restaurationCategoryId)
+            let r = await shopList(this.latitude, this.longitude, this.offset, this.restaurationCategoryId)
             this.noMore = r.length === 0
             this.shopList.push(...r)
             this.offset += 10

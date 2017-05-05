@@ -1,44 +1,56 @@
 $blue: #3190e8;
 $bc: #e4e4e4;
 $fc:#fff;
+@define-mixin allcover {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+@define-mixin bis $url {
+    background-image: url($url);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
 @define-mixin wh $width,
 $height {
-	width: $width;
-	height: $height;
+    width: $width;
+    height: $height;
 }
 
 @define-mixin sc $size,
 $color {
-	font-size: $size;
-	color: $color;
+    font-size: $size;
+    color: $color;
 }
 
 @define-mixin vc {
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
-@define-mixin vh {
-	position: absolute;
-	left: 50%;
-	transform: translateX(-50%);
+@define-mixin hc {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 @define-mixin center {
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 @define-mixin fj $type: space-between {
-	display: flex;
-	justify-content: $type;
+    display: flex;
+    justify-content: $type;
 }
 
 @define-mixin font $size,
 $line-height,
 $family:'Microsoft YaHei' {
-	font: $(size)/$(line-height) $family;
+    font: $(size)/$(line-height) $family;
 }

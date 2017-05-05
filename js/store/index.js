@@ -11,6 +11,9 @@ const state = {
     latitude: '',
     longitude: '',
     geohash: 'wtw3sm0q087',
+    shopDetail: null,
+    cartList:{},
+    
 }
 
 export default new Vuex.Store({

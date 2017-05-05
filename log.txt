@@ -16,6 +16,11 @@ vue 组件 字面量语法 vs 动态语法    如果想传递一个实际的numb
 定义组件属性时，慎用箭头函数，this会指向错误undefined
 swiper组件 尽量最后来初始化组件，保证控件正确，vue中使用异步钩子时候需要注意
 需要操作dom可以使用ref
+组件绑定原生事件需要使用.native修饰符修饰v-on
+调试查看代码的时，注意追踪的目标对象，别弄混淆了
+飞入动画实现，生成元素清除，数据清除
+showMoveDot.splice(0) vue使用这种方式清空数组且保持响应
+无效的数据注意清除掉,不要生成无用的数据
 
 css
 press 
@@ -48,6 +53,8 @@ css选择器机制，从右向左
 9.伪类选择器（a:hover, li:nth-child）
 从复杂页面开发来看BEM命名方式编写css代码比嵌套更优
 
+http://cubic-bezier.com cubic-bezier(.17,.67,.83,.67) css3固定了 0,0 1,1 2点
+
 js
 函数调用无返回值，注意是否箭头函数未return值
 动画
@@ -55,6 +62,8 @@ css3实现  动画属性值发生变化   scrollTop值不属于动画属性支�
 js实现  setInterval requestAnimationFrame
 vue实现 基于css和js动画的封装 复杂的功能可以通过css或js动画库
 Array.find使用时注意比较数值时== ===区别，lodash find使用的isEqual内部使用的===
+array.forEach(item => item = false) 函数中值类型修改只是修改了内部的参数变量，对array没有影响
+
 
 other
 http://editor.method.ac/ svg 在线编辑转换工具
@@ -62,8 +71,8 @@ http://editor.method.ac/ svg 在线编辑转换工具
 
 饿了么前端项目完成，达到前端技术全面实践
 前端项目-总结(架构,css,js,swiper,scroll,animate)-nodejs-后端项目总结
-心平气和
+平心静气
 来休息一会
 不努力会越来越痛苦
 有目标才忘我
-英文学习持续
+努力成为一个普通人

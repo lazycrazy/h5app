@@ -2,10 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from '../App'
 
-//import home from '../pages/home/home'
-//import scan from '../pages/scan/scan'
-//import city from '../pages/city/city'
-
 
 const home = () =>
     import ( /* webpackChunkName: "home" */ 'src/pages/home')

@@ -8,6 +8,9 @@ export default 对应 无括号变量,export 需要{...} 来导入，不然会�
 
 webpack
 exclude 用到的目录需要过滤掉
+hash chunkhash minimize 压缩 之类发布版本优化用到的配置，开发版不要使用影响hmr
+js中引用css，使用style-loader引用插入
+
 
 vue
 组件只能有一个根节点
@@ -21,6 +24,10 @@ swiper组件 尽量最后来初始化组件，保证控件正确，vue中使用�
 飞入动画实现，生成元素清除，数据清除
 showMoveDot.splice(0) vue使用这种方式清空数组且保持响应
 无效的数据注意清除掉,不要生成无用的数据
+VUE文件中style scope 使用需要注意，一些组件css引入不能使用scope，需要注意样式污染问题. 
+组件啥的最好使用js导入css
+
+
 
 css
 press 

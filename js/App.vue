@@ -9,7 +9,7 @@
 export default {}
 </script>
 <style>
-@import 'common.css';
+
 .router-fade-enter-active,
 .router-fade-leave-active {
     transition: opacity .3s;

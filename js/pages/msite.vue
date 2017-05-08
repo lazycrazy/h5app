@@ -37,8 +37,7 @@
 import _ from 'lodash'
 import HeadTop from 'components/header'
 import Icon from 'components/icon'
-import 'src/../node_modules/swiper/dist/js/swiper.min.js'
-import 'src/../node_modules/swiper/dist/css/swiper.min.css';
+
 
 import {
     imgBaseUrl
@@ -60,6 +59,10 @@ import {
 import FootGuide from 'components/footer'
 import ShopList from 'components/shoplist'
 import Vue from 'vue'
+
+import 'src/../node_modules/swiper/dist/js/swiper.min.js'
+import 'src/../node_modules/swiper/dist/css/swiper.min.css'
+
 
 export default {
     name: "Msite",
@@ -100,10 +103,13 @@ export default {
         for (let c = 0; c < count; c++)
             newTypes.push(foodTypes.slice(c * 8, (c + 1) * 8))
         this.foodTypes = newTypes
-        Vue.nextTick(() => new Swiper('.swiper-container', {
-            pagination: '.swiper-pagination',
-            loop: true
-        }))
+        await this.foodTypes
+        new Swiper('.swiper-container', {
+                direction: 'horizontal',
+                loop: true,
+                pagination: '.swiper-pagination'
+            })
+            // Vue.nextTick(() => )
     },
 }
 </script>

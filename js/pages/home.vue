@@ -14,7 +14,7 @@
 			</router-link>
 		</nav>
 		<section id='hot-city-container'>
-			<h4 class='city-title'>热门城市ddd</h4>
+			<h4 class='city-title'>热门城市</h4>
 			<ul class='citylist clear'>
 				<router-link tag='li' v-for="item of hotcity" :to="'/city/' + item.id" :key='item.id'>
 					{{item.name}}

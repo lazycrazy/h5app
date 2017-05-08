@@ -2,27 +2,27 @@ var path = require('path')
 var config = require('../config')
 var webpack = require('webpack')
 var HTMLPlugin = require('html-webpack-plugin')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
+    // var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var projectRoot = path.resolve(__dirname, '../')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+    // const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
     //var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
     entry: {
         index: './js/index.js',
-        vendor: [
-            'vue',
-            'vue-router',
-            'vuex',
-            'vuex-router-sync',
-            'axios',
-            'fastclick',
-            'lodash',
-            'swiper'
-        ]
+        // vendor: [
+        //     'vue',
+        //     'vue-router',
+        //     'vuex',
+        //     'vuex-router-sync',
+        //     'axios',
+        //     'fastclick',
+        //     'lodash',
+        //     'swiper'
+        // ]
     },
     output: {
-        filename: process.env.NODE_ENV === config.dev.env.NODE_ENV ? '[name].[hash].js' : '[name].[chunkhash].js',
+        filename: '[name].js',
         path: config.build.assetsRoot,
         publicPath: config.build.assetsPublicPath
     },
@@ -30,9 +30,11 @@ module.exports = {
         rules: [{
             test: /\.vue$/,
             loader: 'vue-loader',
-            // options: {
-            //     extractCSS: true
-            // }
+            options: {
+                loaders: {
+                    css: ['vue-style-loader', 'css-loader']
+                }
+            }
         }, {
             test: /\.js$/,
             loader: 'babel-loader',
@@ -40,11 +42,19 @@ module.exports = {
             exclude: /node_modules/
         }, {
             test: /\.css$/,
-            use: ["css-loader"]
-            // use: ExtractTextPlugin.extract({
-            //     fallback: "style-loader",
-            //     use: ["css-loader"]
-            // })
+            use: [
+                    { loader: "style-loader" }, {
+                        loader: "css-loader",
+                        options: {
+                            importLoaders: 1,
+                        }
+                    },
+                    { loader: 'postcss-loader' },
+                ]
+                // use: ExtractTextPlugin.extract({
+                //     fallback: "style-loader",
+                //     use: ["css-loader"]
+                // })
         }, {
             test: /\.(png|jpg|gif|svg)$/,
             loader: 'file-loader',
@@ -56,32 +66,32 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.vue', '.css'],
         alias: {
-            vue$: 'vue/dist/vue.common.js',
             src: path.resolve(__dirname, '../js'),
             assets: path.resolve(__dirname, '../static'),
-            components: path.resolve(__dirname, '../js/components')
+            components: path.resolve(__dirname, '../js/components'),
+            'vue$': 'vue/dist/vue.esm.js',
         }
     },
-    devtool: process.env.NODE_ENV === config.dev.env.NODE_ENV ? '#eval-source-map' : 'source-map',
+    devtool: process.env.NODE_ENV === JSON.parse(config.dev.env.NODE_ENV) ? '#eval-source-map' : 'source-map',
     plugins: [
-        //		new BundleAnalyzerPlugin(),
+        //      new BundleAnalyzerPlugin(),
         new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: `'${process.env.NODE_ENV}'`
-            }
+            'process.env': config.dev.env
         }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor'
-        }),
-        new HTMLPlugin({
-            template: 'index.html'
-        }),
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     name: 'vendor'
+        // }),
+
         // new ExtractTextPlugin('[name].[contenthash].css'),
         // new UglifyJSPlugin({
         //     sourceMap: false
         // }),
-        new webpack.LoaderOptionsPlugin({
-            minimize: true
-        })
+        new webpack.HotModuleReplacementPlugin(),
+        // new webpack.LoaderOptionsPlugin({
+        //     minimize: false
+        // }),
+        new HTMLPlugin({
+            template: 'index.html'
+        }),
     ]
 };

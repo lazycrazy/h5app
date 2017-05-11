@@ -1,7 +1,7 @@
 <template>
     <div class='shop-container'>
         <div>
-            <HeadTop  v-if='!showLoading'  :title='shopDetailData.name' :goback='true' class='head-top' :bkcolor="false"></HeadTop>
+            <HeadTop v-if='!showLoading' :title='shopDetailData.name' :goback='true' class='head-top' :bkcolor="false"></HeadTop>
             <header v-if='!showLoading' class='shop-header'>
                 <img :src="getImagePath(shopDetailData.image_path)" class='header-bgimg'>
                 <section class='shop-header-desc-container'>
@@ -119,70 +119,66 @@
                                             <span>{{foods.specfoods[0].price}}</span>
                                             <span v-if="foods.specifications.length">起</span>
                                         </section>
-                                        <BuyCart :shopId='shopId' :foods='foods' @moveInCart="listenInCart" @showChooseList="showChooseList" @showReduceTip="showReduceTip" @showMoveDot="showMoveDotFun"></BuyCart>
+                                        <BuyCart :shopId='shopId' :foods='foods' @showChooseList="showChooseList" @showReduceTip="showReduceTip" @showMoveDot="showMoveDotFun"></BuyCart>
                                     </footer>
                                 </dd>
                             </dl>
                         </section>
                     </section>
-                    <section class="buy-cart-container">
-                        <section @click="toggleCartList" class="cart-icon-num">
-                            <div class="cart-icon-container" :class="{cart_icon_active: totalPrice > 0, move_in_cart:receiveInCart}">
+                    <div class="buy-cart">
+                        <div @click="toggleCartList" class="buy-cart-icon-num">
+                            <div ref='cartIcon' class="buy-cart-icon" :class="{cart_icon_active: totalPrice > 0, move_in_cart:receiveInCart}">
                                 <span v-if="totalNum" class="cart-list-length">
                                     {{totalNum}}
                                 </span>
-                                <Icon class="cart-icon" name="cart-icon"></Icon>
+                                <Icon class="buy-cart-icon-img" name="cart-icon"></Icon>
                             </div>
-                            <div class="cart-num">
+                            <div class="buy-cart-num">
                                 <div>¥ {{totalPrice}}</div>
                                 <div>配送费¥{{deliveryFee}}</div>
                             </div>
-                        </section>
-                        <section class="gotopay" :class="{gotopay_acitvity: minimumOrderAmount <= 0}">
-                            <span class="gotopay_button_style" v-if="minimumOrderAmount > 0">还差¥{{minimumOrderAmount}}起送</span>
-                            <router-link :to="{path:'/confirmOrder', query:{geohash, shopId}}" class="gotopay_button_style" v-else>去结算</router-link>
-                        </section>
-                    </section>
+                        </div>
+                        <div class="gotopay" :class="{gotopay_active: minimumOrderAmount <= 0}">
+                            <span class="gotopay-btn" v-if="minimumOrderAmount > 0">还差¥{{minimumOrderAmount}}起送</span>
+                            <router-link :to="{path:'/confirmOrder', query:{geohash, shopId}}" class="gotopay-btn" v-else>去结算</router-link>
+                        </div>
+                    </div>
                     <transition name="toggle-cart">
-                        <section class="cart_food_list" v-show="showCartList&&cartFoodList.length">
+                        <section class="cart-food-list" v-show="showCartList&&cartFoodList.length">
                             <header>
                                 <h4>购物车</h4>
                                 <div @click="clearCart">
-                                    <svg>
-                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cart-remove"></use>
-                                    </svg>
-                                    <span class="clear_cart">清空</span>
+                                    <Icon name='cart-remove' class='cart-clear'></Icon>
+                                    <span class="clear-cart">清空</span>
                                 </div>
                             </header>
-                            <section class="cart_food_details" id="cartFood">
+                            <div class="cart-food-list-detail" id="cartFood">
                                 <ul>
-                                    <li v-for="(item, index) in cartFoodList" :key="index" class="cart_food_li">
-                                        <div class="cart_list_num">
+                                    <li v-for="(item, index) in cartFoodList" :key="index">
+                                        <div>
                                             <p class="ellipsis">{{item.name}}</p>
                                             <p class="ellipsis">{{item.specs}}</p>
                                         </div>
-                                        <div class="cart_list_price">
+                                        <div>
                                             <span>¥</span>
                                             <span>{{item.price}}</span>
                                         </div>
-                                        <section class="cart_list_control">
-                                            <span @click="removeOutCart(item.category_id, item.item_id, item.food_id, item.name, item.price, item.specs)">
-                                                <Icon name='cart-minus'></Icon> 
-                                            </span>
-                                            <span class="cart_num">{{item.num}}</span>
-                                            <Icon name='cart-add' class="cart_add" @click="addToCart(item.category_id, item.item_id, item.food_id, item.name, item.price, item.specs)"></Icon>
-                                        </section>
+                                        <div>
+                                            <Icon @click.native="removeOutCart(item.category_id, item.item_id, item.food_id, item.name, item.price, item.specs)" name='cart-minus' class='cart-minus'></Icon>
+                                            <span class="cart-num">{{item.num}}</span>
+                                            <Icon name='cart-add' class="cart-add" @click.native="addToCart(item.category_id, item.item_id, item.food_id, item.name, item.price, item.specs)"></Icon>
+                                        </div>
                                     </li>
                                 </ul>
-                            </section>
+                            </div>
                         </section>
-                    </transition>
-                    <transition name="fade">
-                        <div class="screen-cover" v-show="showCartList&&cartFoodList.length" @click="toggleCartList"></div>
                     </transition>
                 </section>
             </transition>
         </div>
+        <transition name="fade">
+            <div class="screen-cover" v-show="showCartList&&cartFoodList.length" @click="toggleCartList"></div>
+        </transition>
         <div></div>
         <transition name="fade">
             <p class="delete-tip" v-if="showDeleteTip">多规格商品只能去购物车删除哦</p>
@@ -192,6 +188,35 @@
             <span class="move-dot" v-if="item">
         <Icon class='move-liner' name='cart-add'></Icon>                 
             </span>
+        </transition>
+        <transition name="fade">
+            <div class="specs-cover" @click="showChooseList" v-if="showSpecs"></div>
+        </transition>
+        <transition name="fade-bounce">
+            <div class="specs-list" v-if="showSpecs">
+                <header class="specs-list-header">
+                    <h4 class="ellipsis">{{choosedFoods.name}}</h4>
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" version="1.1" class="specs-list-cancel" @click="showChooseList">
+                        <line x1="0" y1="0" x2="16" y2="16" stroke="#666" stroke-width="1.2" />
+                        <line x1="0" y1="16" x2="16" y2="0" stroke="#666" stroke-width="1.2" />
+                    </svg>
+                </header>
+                <section class="specs-list-details">
+                    <h5 class="specs-list-details-title">{{choosedFoods.specifications[0].name}}</h5>
+                    <ul>
+                        <li v-for="(item, itemIndex) in choosedFoods.specifications[0].values" :class="{sepcs_active: itemIndex == specsIndex}" @click="chooseSpecs(itemIndex)">
+                            {{item}}
+                        </li>
+                    </ul>
+                </section>
+                <footer class="specs-list-footer">
+                    <div class="specs-list-footer-price">
+                        <span>¥ </span>
+                        <span>{{choosedFoods.specfoods[specsIndex].price}}</span>
+                    </div>
+                    <div class="specs-list-footer-addtocart" @click="addSpecs(choosedFoods.category_id, choosedFoods.item_id, choosedFoods.specfoods[specsIndex].food_id, choosedFoods.specfoods[specsIndex].name, choosedFoods.specfoods[specsIndex].price, choosedFoods.specifications[0].values[specsIndex], choosedFoods.specfoods[specsIndex].packing_fee, choosedFoods.specfoods[specsIndex].sku_id, choosedFoods.specfoods[specsIndex].stock)">加入购物车</div>
+                </footer>
+            </div>
         </transition>
         <transition name="router-slide" mode="out-in">
             <router-view></router-view>
@@ -222,7 +247,10 @@ import {
 import {
     SET_GEOHASH,
     SET_LOCATION,
-    SET_SHOPDETAIL
+    SET_SHOPDETAIL,
+    ADD_CART,
+    CLEAR_CART,
+    REDUCE_CART
 } from 'src/store/mutation-types'
 
 
@@ -233,6 +261,7 @@ export default {
             geohash: '',
             shopId: null,
             showLoading: true,
+            loadRatings: false,
             showActivities: false,
             shopDetailData: null,
             ratingList: null,
@@ -244,7 +273,6 @@ export default {
             cartFoodList: [],
             menuList: [],
             menuIndex: 0,
-            totalNum: 10,
             categoryNum: [],
             titleDetailIndex: null,
             showMoveDot: [],
@@ -252,6 +280,12 @@ export default {
             elLeft: 0,
             elBottom: 0,
             windowHeight: 0,
+            showDeleteTip: false,
+            choosedFoods: null,
+            showSpecs: false,
+            specsIndex: 0,
+            totalPrice: 0,
+            receiveInCart: false,
         }
     },
     components: {
@@ -263,7 +297,7 @@ export default {
     },
     mixins: [getImagePath],
     methods: {
-        ...mapMutations([SET_GEOHASH, SET_LOCATION, SET_SHOPDETAIL]),
+        ...mapMutations([SET_GEOHASH, SET_LOCATION, SET_SHOPDETAIL, ADD_CART, CLEAR_CART, REDUCE_CART]),
         hideLoading() {
             clearTimeout(this.timer)
             this.timer = setTimeout(() => {
@@ -277,23 +311,40 @@ export default {
         setTab(type) {
             this.selectedTab = type
         },
-        toggleCartList() {
-            this.cartFoodList.length ? this.showCartList = !this.showCartList : true;
+        toggleCartList(event) {
+            if (this.cartFoodList.length) this.showCartList = !this.showCartList
         },
         chooseMenu(idx) {
             this.menuIndex = idx
         },
-        addToCart() {
-
+        addToCart(category_id, item_id, food_id, name, price, specs) {
+            this.ADD_CART({
+                shopid: this.shopId,
+                category_id,
+                item_id,
+                food_id,
+                name,
+                price,
+                specs
+            })
         },
-        removeOutCart() {
-
+        removeOutCart(category_id, item_id, food_id, name, price, specs) {
+            this.REDUCE_CART({
+                shopid: this.shopId,
+                category_id,
+                item_id,
+                food_id,
+                name,
+                price,
+                specs
+            })
         },
         showTitleDetail(index) {
             this.titleDetailIndex = this.titleDetailIndex == index ? null : index;
         },
         clearCart() {
-
+            this.toggleCartList()
+            this.CLEAR_CART(this.shopId)
         },
         listenScroll(element) {
             // let oldScrollTop;
@@ -319,33 +370,32 @@ export default {
             // })
         },
         listenInCart() {
-            // if (!this.receiveInCart) {
-            //     this.receiveInCart = true;
-            //     this.$refs.cartContainer.addEventListener('animationend', () => {
-            //         this.receiveInCart = false;
-            //     })
-            //     this.$refs.cartContainer.addEventListener('webkitAnimationEnd', () => {
-            //         this.receiveInCart = false;
-            //     })
-            // }
+            if (!this.receiveInCart) {
+                this.receiveInCart = true;
+                this.$refs.cartIcon.addEventListener('animationend', () => {
+                    this.receiveInCart = false;
+                })
+                this.$refs.cartIcon.addEventListener('webkitAnimationEnd', () => {
+                    this.receiveInCart = false;
+                })
+            }
         },
         showChooseList(foods) {
-            // if (foods) {
-            //     this.choosedFoods = foods;
-            // }
-            // this.showSpecs = !this.showSpecs;
-            // this.specsIndex = 0;
+            if (foods) {
+                this.choosedFoods = foods
+            }
+            this.showSpecs = !this.showSpecs
+            this.specsIndex = 0
         },
         chooseSpecs(index) {
-            // this.specsIndex = index;
+            this.specsIndex = index
         },
         showReduceTip() {
-            // this.showDeleteTip = true;
-            // clearTimeout(this.timer);
-            // this.timer = setTimeout(() => {
-            //     clearTimeout(this.timer);
-            //     this.showDeleteTip = false;
-            // }, 3000);
+            this.showDeleteTip = true;
+            let timer = setTimeout(() => {
+                clearTimeout(timer)
+                this.showDeleteTip = false
+            }, 3000)
         },
         showMoveDotFun(showMoveDot, elLeft, elBottom) {
             this.showMoveDot.push(showMoveDot)
@@ -371,6 +421,57 @@ export default {
             })
             this.showMoveDot.splice(0) //注意清除
         },
+        addSpecs(category_id, item_id, food_id, name, price, specs, packing_fee, sku_id, stock) {
+            this.ADD_CART({
+                shopid: this.shopId,
+                category_id,
+                item_id,
+                food_id,
+                name,
+                price,
+                specs,
+                packing_fee,
+                sku_id,
+                stock
+            })
+            this.showChooseList()
+        },
+        initCategoryNum() {
+            let newArr = [];
+            let cartFoodNum = 0;
+            this.totalPrice = 0;
+            this.cartFoodList = [];
+            this.menuList.forEach((item, index) => {
+                if (this.shopCart && this.shopCart[item.foods[0].category_id]) {
+                    let num = 0;
+                    Object.keys(this.shopCart[item.foods[0].category_id]).forEach(itemid => {
+                        Object.keys(this.shopCart[item.foods[0].category_id][itemid]).forEach(foodid => {
+                            let foodItem = this.shopCart[item.foods[0].category_id][itemid][foodid];
+                            num += foodItem.num;
+                            if (item.type == 1) {
+                                this.totalPrice += foodItem.num * foodItem.price;
+                                if (foodItem.num > 0) {
+                                    this.cartFoodList[cartFoodNum] = {};
+                                    this.cartFoodList[cartFoodNum].category_id = item.foods[0].category_id;
+                                    this.cartFoodList[cartFoodNum].item_id = itemid;
+                                    this.cartFoodList[cartFoodNum].food_id = foodid;
+                                    this.cartFoodList[cartFoodNum].num = foodItem.num;
+                                    this.cartFoodList[cartFoodNum].price = foodItem.price;
+                                    this.cartFoodList[cartFoodNum].name = foodItem.name;
+                                    this.cartFoodList[cartFoodNum].specs = foodItem.specs;
+                                    cartFoodNum++;
+                                }
+                            }
+                        })
+                    })
+                    newArr[index] = num;
+                } else {
+                    newArr[index] = 0;
+                }
+            })
+            this.totalPrice = this.totalPrice.toFixed(2);
+            this.categoryNum = [...newArr];
+        },
     },
     created() {
         this.geohash = this.$route.query.geohash
@@ -393,16 +494,260 @@ export default {
         this.windowHeight = window.innerHeight
     },
     computed: {
-        ...mapState(['latitude', 'longitude']),
+        ...mapState(['latitude', 'longitude', 'cartList']),
         promotionInfo() {
             return this.shopDetailData.promotion_info || '欢迎光临，用餐高峰请提前下单'
         },
+        deliveryFee() {
+            return this.shopDetailData && this.shopDetailData.float_delivery_fee || null
+        },
+        minimumOrderAmount() {
+            return this.shopDetailData && this.shopDetailData.float_minimum_order_amount - this.totalPrice
+        },
+        totalNum() {
+            return this.cartFoodList.reduce((pre, cur) => pre + cur.num, 0)
+        },
+        shopCart() {
+            return this.cartList[this.shopId]
+        }
+    },
+    watch: {
+        cartFoodList(value) {
+            if (!value.length)
+                this.showCartList = false
+        },
+        shopCart(value) {
+            this.initCategoryNum()
+        },
+        showLoading(value) {
+            if (!value) {
+                this.$nextTick(() => {
+                    this.getFoodListHeight()
+                    this.initCategoryNum()
+                })
+            }
+        }
     }
-
 }
 </script>
 <style scoped>
 @import 'mixin';
+.cart-clear {
+    @mixin wh .6rem,
+    .6rem;
+}
+
+.cart-minus,
+.cart-add {
+    @mixin wh .9rem,
+    .9rem;
+    fill: #3190e8;
+}
+
+.cart-food-list {
+    position: fixed;
+    width: 100%;
+    padding-bottom: 2rem;
+    z-index: 12;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    >header {
+        display: flex;
+        @mixin fj;
+        padding: .3rem .6rem;
+        background-color: #eceff1;
+        align-items: center;
+        >h4 {
+            font-size: .7rem;
+            color: #666;
+        }
+        span {
+            font-size: .6rem;
+            color: #666;
+        }
+    }
+    &-detail {
+        li {
+            display: flex;
+            padding: .6rem .5rem;
+            align-items: center;
+            @mixin fj;
+            >div:first-child {
+                width: 55%;
+                p:nth-of-type(1) {
+                    @mixin sc .7rem,
+                    #666;
+                    font-weight: bold;
+                }
+                p:nth-of-type(2) {
+                    @mixin sc .4rem,
+                    #666;
+                }
+            }
+            >div:nth-of-type(2) {
+                font-size: 0;
+                span:first-child {
+                    @mixin sc .6rem,
+                    #f60;
+                }
+                span:nth-of-type(2) {
+                    @mixin sc .7rem,
+                    #f60;
+                    font-weight: bold;
+                }
+            }
+            >div:nth-of-type(3) {
+                display: flex;
+                align-items: center;
+                span:nth-of-type(1) {
+                    @mixin sc .7rem,
+                    #666;
+                    min-width: 1rem;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
+
+.screen-cover {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, .3);
+    z-index: 11;
+}
+
+.move_in_cart {
+    animation: mymove .5s ease-in-out;
+}
+
+@keyframes mymove {
+    0% {
+        transform: scale(1)
+    }
+    25% {
+        transform: scale(.8)
+    }
+    50% {
+        transform: scale(1.1)
+    }
+    75% {
+        transform: scale(.9)
+    }
+    100% {
+        transform: scale(1)
+    }
+}
+
+.sepcs_active {
+    border-color: #3199e8;
+    color: #3199e8;
+}
+
+.specs-list {
+    position: fixed;
+    top: 35%;
+    left: 15%;
+    width: 70%;
+    background-color: #fff;
+    z-index: 15;
+    border: 1px;
+    border-radius: .2rem;
+    &-header {
+        h4 {
+            @mixin sc .7rem,
+            #222;
+            font-weight: normal;
+            text-align: center;
+            padding: .5rem;
+        }
+    }
+    &-cancel {
+        position: absolute;
+        right: .5rem;
+        top: .5rem;
+    }
+    &-details {
+        padding: .5rem;
+        &-title {
+            @mixin sc .6rem,
+            #666;
+        }
+        >ul {
+            display: flex;
+            flex-wrap: wrap;
+            padding: .4rem 0;
+            >li {
+                font-size: .6rem;
+                padding: .3rem .5rem;
+                border: .025rem solid #ddd;
+                border-radius: .2rem;
+                margin-right: .5rem;
+            }
+        }
+    }
+    &-footer {
+        display: flex;
+        @mixin fj;
+        padding: .3rem .3rem .5rem .8rem;
+        background-color: #f9f9f9;
+        border-radius: .2rem;
+        &-price {
+            >span {
+                color: #ff6000;
+            }
+            span:first-child {
+                font-size: .5rem;
+            }
+            span:nth-of-type(2) {
+                font-size: .8rem;
+                font-weight: bold;
+            }
+        }
+        &-addtocart {
+            @mixin wh 4rem,
+            1.3rem;
+            background-color: #3199e8;
+            border: 1px;
+            border-radius: .15rem;
+            @mixin sc .6rem,
+            #fff;
+            text-align: center;
+            line-height: 1.3rem;
+        }
+    }
+}
+
+.specs-cover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .4);
+    z-index: 14;
+}
+
+.delete-tip {
+    position: fixed;
+    top: 50%;
+    left: 15%;
+    width: 70%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, .8);
+    z-index: 15;
+    @mixin sc .65rem,
+    #fff;
+    text-align: center;
+    padding: .5rem 0;
+    border: 1px;
+    border-radius: .25rem;
+}
+
 .move-dot {
     position: fixed;
     bottom: 30px;
@@ -553,6 +898,8 @@ export default {
         font-size: .5rem;
         display: flex;
         overflow-y: hidden;
+        position: relative;
+        z-index: 0;
     }
     &-food {
         display: flex;
@@ -576,44 +923,33 @@ export default {
     background-color: #3190e8;
 }
 
-.cart-icon-container {
-    position: absolute;
-    left: .5rem;
-    top: -0.7rem;
-    padding: .4rem;
-    border: 0.18rem solid #444;
-    border-radius: 50%;
-    background-color: #3d3d3f;
-}
-
-.cart-num {
-    >div {
-        color: #fff;
-    }
-    >div:last-child {
-        font-size: .4rem;
-        font-weight: lighter;
-    }
-    position: absolute;
-    left: 3.6rem;
-    @mixin vc;
-}
-
-.cart-icon-num {
-    flex: 1;
-}
-
 .gotopay {
     width: 5rem;
-    display: flex;
-    justify-content: center;
+    @mixin fj center;
     align-items: center;
+    position: absolute;
+    right: 0;
+    height: 100%;
+    text-align: center;
+    background-color: #535353;
     >a {
         color: #fff;
     }
+    &-active {
+        background-color: #4cd964;
+    }
+    &-btn {
+        @mixin sc .7rem,
+        #fff;
+        font-weight: bold;
+    }
 }
 
-.buy-cart-container {
+.gotopay_active {
+    background-color: #4cd964;
+}
+
+.buy-cart {
     position: absolute;
     background-color: #3d3d3f;
     bottom: 0;
@@ -624,11 +960,35 @@ export default {
     display: flex;
     font-size: .7rem;
     font-weight: bold;
-}
-
-.cart-icon {
-    @mixin wh 1.2rem,
-    1.2rem;
+    &-icon-num {
+        flex: 1;
+    }
+    &-num {
+        >div {
+            color: #fff;
+        }
+        >div:last-child {
+            font-size: .4rem;
+            font-weight: lighter;
+        }
+        position: absolute;
+        left: 3.6rem;
+        @mixin vc;
+    }
+    &-icon {
+        display: flex;
+        position: absolute;
+        left: .5rem;
+        top: -0.7rem;
+        padding: .4rem;
+        border: 0.18rem solid #444;
+        border-radius: 50%;
+        background-color: #3d3d3f;
+        &-img {
+            @mixin wh 1.2rem,
+            1.2rem;
+        }
+    }
 }
 
 .shop-container {
@@ -638,6 +998,10 @@ export default {
     left: 0;
     right: 0;
     height: 100%;
+    >div:first-child {
+        position: relative;
+        z-index: 1;
+    }
 }
 
 .shop-header {
@@ -645,23 +1009,69 @@ export default {
     overflow: hidden;
     position: relative;
     padding-top: 1.95rem;
+    &-desc-container {
+        position: relative;
+        z-index: 10;
+        background-color: rgba(119, 103, 137, 0.43);
+        padding: 0.4rem 0 0.4rem 0.4rem;
+        width: 100%;
+        overflow: hidden;
+    }
+    &-link {
+        display: flex;
+    }
+    &-img {
+        @mixin wh 3rem,
+        3rem;
+        margin-right: .4rem;
+    }
+    &-desc {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        font-size: .5rem;
+    }
+    &-name {
+        font-size: .8rem;
+        color: #fff;
+        font-weight: bold;
+    }
+    &-delivery {
+        color: #fff;
+    }
+    &-notice {
+        color: #fff;
+        width: 11.2rem;
+    }
+    &-detail-link {
+        @mixin vc;
+        right: .3rem;
+        z-index: 11;
+        @mixin wh .5rem,
+        .5rem;
+        fill: $bc;
+    }
+    &-activity-link {
+        @mixin wh .3rem,
+        .3rem;
+    }
+    &-activities {
+        @mixin fj;
+        position: relative;
+        z-index: 10;
+        font-size: .5rem;
+        margin: .4rem .3rem 0 0;
+        span {
+            color: #fff;
+        }
+        >p {
+            color: #fff;
+        }
+    }
 }
 
 .head-top {
     background-color: rgba(119, 103, 137, 0.43);
-}
-
-.shop-header-desc-container {
-    position: relative;
-    z-index: 10;
-    background-color: rgba(119, 103, 137, 0.43);
-    padding: 0.4rem 0 0.4rem 0.4rem;
-    width: 100%;
-    overflow: hidden;
-}
-
-.shop-header-link {
-    display: flex;
 }
 
 .header-bgimg {
@@ -671,62 +1081,6 @@ export default {
     left: 0;
     z-index: 9;
     filter: blur(10px);
-}
-
-.shop-header-img {
-    @mixin wh 3rem,
-    3rem;
-    margin-right: .4rem;
-}
-
-.shop-header-desc {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    font-size: .5rem;
-}
-
-.shop-header-name {
-    font-size: .8rem;
-    color: #fff;
-    font-weight: bold;
-}
-
-.shop-header-delivery {
-    color: #fff;
-}
-
-.shop-header-notice {
-    color: #fff;
-    width: 11.2rem;
-}
-
-.shop-header-detail-link {
-    @mixin vc;
-    right: .3rem;
-    z-index: 11;
-    @mixin wh .5rem,
-    .5rem;
-    fill: $bc;
-}
-
-.shop-header-activity-link {
-    @mixin wh .3rem,
-    .3rem;
-}
-
-.shop-header-activities {
-    @mixin fj;
-    position: relative;
-    z-index: 10;
-    font-size: .5rem;
-    margin: .4rem .3rem 0 0;
-    span {
-        color: #fff;
-    }
-    >p {
-        color: #fff;
-    }
 }
 
 .activities-details {
@@ -791,5 +1145,16 @@ export default {
 .fade-enter,
 .fade-leave-active {
     opacity: 0;
+}
+
+.fade-bounce-enter-active,
+.fade-bounce-leave-active {
+    transition: all .3s;
+}
+
+.fade-bounce-enter,
+.fade-bounce-leave-active {
+    opacity: 0;
+    transform: scale(.7);
 }
 </style>

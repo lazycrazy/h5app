@@ -16,7 +16,7 @@
         </div>
         <div v-else class='wrapper'>
             <transition name="show-reduce">
-                <Icon class="specs-reduce-icon" v-if="foodCount" @click="showReduceTip" name='cart-minus'></Icon>
+                <Icon class="specs-reduce-icon" v-if="foodCount" @click.native="showReduceTip" name='cart-minus'></Icon>
             </transition>
             <transition name="fade">
                 <span class="count" v-if="foodCount">{{foodCount}}</span>

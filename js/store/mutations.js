@@ -94,8 +94,11 @@ export default {
             state.cartList = {...cart }
             setStorage('buycart', state.cartList)
         }
+    }, [CLEAR_CART](state, shopid) {
+        state.cartList[shopid] = null
+        // state.cartList = {...state.cartList }
+        setStorage('buycart', state.cartList)
     },
-
 
     [SET_USERINFO](state, info) {
         if (state.userInfo && (state.userInfo.username !== info.username)) {

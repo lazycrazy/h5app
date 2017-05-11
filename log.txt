@@ -59,8 +59,10 @@ css选择器机制，从右向左
 8.属性选择器（a[rel="external"]）
 9.伪类选择器（a:hover, li:nth-child）
 从复杂页面开发来看BEM命名方式编写css代码比嵌套更优
-
 http://cubic-bezier.com cubic-bezier(.17,.67,.83,.67) css3固定了 0,0 1,1 2点
+容器如果需要完全适应内容大小可以使用flex
+font-size:0;可以清除元素换行符间隙
+z-index使用注意从父原则，结合position,文档结构中默认顺序
 
 js
 函数调用无返回值，注意是否箭头函数未return值

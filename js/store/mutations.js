@@ -30,7 +30,7 @@ import {
     BUY_CART,
 } from './mutation-types.js'
 
-import { setStorage } from 'src/service'
+import { setStorage, getStorage } from 'src/service'
 
 export default {
     [SET_LOCATION](state, { latitude, longitude }) {
@@ -96,11 +96,11 @@ export default {
         }
     }, [CLEAR_CART](state, shopid) {
         state.cartList[shopid] = null
-        // state.cartList = {...state.cartList }
+            // state.cartList = {...state.cartList }
         setStorage('buycart', state.cartList)
-    },
-
-    [SET_USERINFO](state, info) {
+    }, [INIT_BUYCART](state) {
+        state.cartList = getStorage('buycart') || state.cartList
+    }, [SET_USERINFO](state, info) {
         if (state.userInfo && (state.userInfo.username !== info.username)) {
             return;
         };

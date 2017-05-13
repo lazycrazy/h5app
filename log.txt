@@ -26,7 +26,7 @@ showMoveDot.splice(0) vue使用这种方式清空数组且保持响应
 无效的数据注意清除掉,不要生成无用的数据
 VUE文件中style scope 使用需要注意，一些组件css引入不能使用scope，需要注意样式污染问题. 
 组件啥的最好使用js导入css
-
+数据未加载时，注意模板中数据的判断使用
 
 
 css
@@ -63,6 +63,8 @@ http://cubic-bezier.com cubic-bezier(.17,.67,.83,.67) css3固定了 0,0 1,1 2点
 容器如果需要完全适应内容大小可以使用flex
 font-size:0;可以清除元素换行符间隙
 z-index使用注意从父原则，结合position,文档结构中默认顺序
+flex布局显示不正确时，注意查看父级相关设置
+flex 默认是不放大，缩小的
 
 js
 函数调用无返回值，注意是否箭头函数未return值

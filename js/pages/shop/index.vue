@@ -28,33 +28,33 @@
                     </div>
                 </section>
             </header>
-            <transition name="fade">
-                <section class="activities-details" v-if="showActivities">
-                    <h2 class="activities-shoptitle">{{shopDetailData.name}}</h2>
-                    <h3 class="activities-ratingstar">
+        </div>
+        <transition name="fade">
+            <section class="activities-details" v-if="showActivities">
+                <h2 class="activities-shoptitle">{{shopDetailData.name}}</h2>
+                <h3 class="activities-ratingstar">
                         <Rating :rating='shopDetailData.rating'></Rating>
                     </h3>
-                    <section class="activities-list">
-                        <header class="activities-title"><span>优惠信息</span></header>
-                        <ul>
-                            <li v-for="item in shopDetailData.activities" :key="item.id">
-                                <span class="activities-icon" :style="{backgroundColor: '#' + item.icon_color, borderColor: '#' + item.icon_color}">{{item.icon_name}}</span>
-                                <span>{{item.description}}（APP专享）</span>
-                            </li>
-                        </ul>
-                    </section>
-                    <section class="activities-shopinfo">
-                        <header class="activities-title"><span>商家公告</span></header>
-                        <p>{{promotionInfo}}</p>
-                    </section>
-                    <svg width="60" height="60" class="close-activities" @click.stop="showActivitiesFun">
-                        <circle cx="30" cy="30" r="25" stroke="#555" stroke-width="1" fill="none" />
-                        <line x1="22" y1="38" x2="38" y2="22" style="stroke:#999;stroke-width:2" />
-                        <line x1="22" y1="22" x2="38" y2="38" style="stroke:#999;stroke-width:2" />
-                    </svg>
+                <section class="activities-list">
+                    <header class="activities-title"><span>优惠信息</span></header>
+                    <ul>
+                        <li v-for="item in shopDetailData.activities" :key="item.id">
+                            <span class="activities-icon" :style="{backgroundColor: '#' + item.icon_color, borderColor: '#' + item.icon_color}">{{item.icon_name}}</span>
+                            <span>{{item.description}}（APP专享）</span>
+                        </li>
+                    </ul>
                 </section>
-            </transition>
-        </div>
+                <section class="activities-shopinfo">
+                    <header class="activities-title"><span>商家公告</span></header>
+                    <p>{{promotionInfo}}</p>
+                </section>
+                <svg width="60" height="60" class="close-activities" @click.stop="showActivitiesFun">
+                    <circle cx="30" cy="30" r="25" stroke="#555" stroke-width="1" fill="none" />
+                    <line x1="22" y1="38" x2="38" y2="22" style="stroke:#999;stroke-width:2" />
+                    <line x1="22" y1="22" x2="38" y2="38" style="stroke:#999;stroke-width:2" />
+                </svg>
+            </section>
+        </transition>
         <div class='tab' v-if='!showLoading'>
             <div>
                 <span :class="{selected_tab:selectedTab=='food'}" @click="setTab('food')">商品</span>
@@ -184,17 +184,17 @@
                     <div>
                         <p>{{shopDetailData.rating}}</p>
                         <p>综合评价</p>
-                        <p>高于周边商家{{(ratingScoresData.compare_rating)}}%</p>
+                        <p>高于周边商家{{(ratingScoresData.compare_rating).toFixed(1)}}%</p>
                     </div>
                     <div>
                         <p>
                             <span>服务态度</span>
-                            <Rating :rating='ratingScoresData.service_score'></Rating>
+                            <Rating :rating='ratingScoresData.service_score' :size='0.4'></Rating>
                             <span class="rating_num">{{ratingScoresData.service_score.toFixed(1)}}</span>
                         </p>
                         <p>
                             <span>菜品评价</span>
-                            <Rating :rating='ratingScoresData.food_score'></Rating>
+                            <Rating :rating='ratingScoresData.food_score' :size='0.4'></Rating>
                             <span class="rating_num">{{ratingScoresData.food_score.toFixed(1)}}</span>
                         </p>
                         <p>
@@ -203,29 +203,29 @@
                         </p>
                     </div>
                 </header>
-                <ul class="tag_list_ul">
-                    <li v-for="(item, index) in ratingTagsList" :key="index" :class="{unsatisfied: item.unsatisfied, tagActivity: ratingTagIndex == index}" @click="changeTagIndex(index, item.name)">{{item.name}}({{item.count}})</li>
+                <ul>
+                    <li v-for="(item, index) in ratingTagsList" :key="index" :class="{unsatisfied: item.unsatisfied, tagActive: ratingTagIndex == index}" @click="changeTagIndex(index, item.name)">{{item.name}}({{item.count}})</li>
                 </ul>
-                <ul class="rating_list_ul">
-                    <li v-for="(item, index) in ratingList" :key="index" class="rating_list_li">
-                        <img :src="getImagePath(item.avatar)" class="user_avatar">
-                        <section class="rating_list_details">
+                <ul>
+                    <li v-for="(item, index) in ratingList" :key="index">
+                        <img :src="getImagePath(item.avatar)">
+                        <section>
                             <header>
-                                <section class="username_star">
-                                    <p class="username">{{item.username}}</p>
-                                    <p class="star_desc">
-                                        <Rating :rating='item.rating_star'></Rating>
-                                        <span class="time_spent_desc">{{item.time_spent_desc}}</span>
+                                <section>
+                                    <p>{{item.username}}</p>
+                                    <p>
+                                        <Rating :rating='item.rating_star' :size='0.4'></Rating>
+                                        <span>{{item.time_spent_desc}}</span>
                                     </p>
                                 </section>
-                                <time class="rated_at">{{item.rated_at}}</time>
+                                <time>{{item.rated_at}}</time>
                             </header>
-                            <ul class="food_img_ul">
+                            <ul>
                                 <li v-for="(item, index) in item.item_ratings" :key="index">
                                     <img class="shop-rating-img" :src="getImagePath(item.image_hash)" v-if="item.image_hash">
                                 </li>
                             </ul>
-                            <ul class="food_name_ul">
+                            <ul>
                                 <li v-for="(item, index) in item.item_ratings" :key="index" class="ellipsis">
                                     {{item.food_name}}
                                 </li>
@@ -549,11 +549,8 @@ export default {
             this.ratingTagIndex = index
             this.ratingOffset = 0
             this.ratingTagName = name
-            let res = await getRatingList(this.ratingOffset, name);
-            this.ratingList = [...res];
-            this.$nextTick(() => {
-                this.ratingScroll.refresh();
-            })
+            let res = await getRatingList(this.ratingOffset, name)
+            this.ratingList = res
         },
     },
     created() {
@@ -616,10 +613,7 @@ export default {
 @import 'mixin';
 .shop-rating {
     flex: 1;
-    flex-direction: column;
-    display: flex;
     overflow-y: auto;
-    background-color: #fff;
     &-img {
         @mixin wh 3rem,
         3rem;
@@ -631,11 +625,48 @@ export default {
         padding: .8rem .5rem;
         margin-bottom: .5rem;
         >div:nth-of-type(1) {
-            flex: 3;
             text-align: center;
+            padding-right: .4rem;
+            border-right: 1px solid #ddd;
+            >p:nth-of-type(1) {
+                @mixin sc 1rem,
+                #f60;
+            }
+            >p:nth-of-type(2) {
+                @mixin sc .6rem,
+                #666;
+                margin-bottom: .1rem;
+            }
+            >p:nth-of-type(3) {
+                @mixin sc 0.2rem,
+                #999;
+            }
         }
         >div:nth-of-type(2) {
-            flex: 4;
+            padding: 0 1rem;
+            >p {
+                /*@mixin fj flex-start;*/
+                @mixin font .65rem,
+                1rem;
+                align-items: center;
+                >span:nth-of-type(1) {
+                    color: #666;
+                    margin-right: .5rem;
+                }
+                >span:nth-of-type(2) {
+                    color: #f60;
+                    width: 3rem;
+                    font-size: .55rem;
+                }
+            }
+            >p:nth-of-type(1) {}
+            >p:nth-of-type(2) {}
+            >p:nth-of-type(3) {
+                >span:nth-of-type(2) {
+                    @mixin sc .4rem,
+                    #999;
+                }
+            }
         }
     }
     >ul:nth-of-type(1) {
@@ -643,6 +674,19 @@ export default {
         flex-wrap: wrap;
         background-color: #fff;
         padding: .5rem;
+        font-size: .65rem;
+        >li {
+            display: inline-block;
+            padding: .2rem;
+            margin: .066667rem .133333rem;
+            border-radius: .133333rem;
+            color: #6d7885;
+            background-color: #ebf5ff;
+        }
+        .tagActive {
+            color: #fff;
+            background-color: #3190e8;
+        }
     }
     >ul:nth-of-type(2) {
         display: flex;
@@ -650,6 +694,7 @@ export default {
         background-color: #fff;
         padding: .5rem;
         flex-direction: column;
+        font-size: .65rem;
         >li {
             display: flex;
             padding: .6rem 0;
@@ -663,6 +708,28 @@ export default {
             }
             >section {
                 flex: 1;
+                >header {
+                    @mixin fj;
+                    margin-bottom: .2rem;
+                }
+                >ul {
+                    margin-top: .2rem;
+                    >li {
+                        display: inline-block;
+                    }
+                }
+                >ul:nth-of-type(2) {
+                    >li {
+                        font-size: 0.55rem;
+                        color: #999;
+                        width: 2.2rem;
+                        padding: .2rem;
+                        border: 0.025rem solid #ebebeb;
+                        border-radius: 0.15rem;
+                        margin-right: .3rem;
+                        margin-bottom: 4px;
+                    }
+                }
             }
         }
     }

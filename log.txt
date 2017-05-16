@@ -65,6 +65,7 @@ font-size:0;可以清除元素换行符间隙
 z-index使用注意从父原则，结合position,文档结构中默认顺序
 flex布局显示不正确时，注意查看父级相关设置
 flex 默认是不放大，缩小的
+inline-block 可以简洁的实现float实现的效果，或者flex wrap
 
 js
 函数调用无返回值，注意是否箭头函数未return值

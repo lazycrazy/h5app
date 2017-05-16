@@ -1,10 +1,10 @@
 <template>
-    <div id='rating-container'>
+    <div id='rating-container' :style="{height:size+'rem'}">
         <div class='stars'>
-            <Icon name='star' v-for='num of 5' :key='num' class='icon grey'></Icon>
+            <Icon name='star' :style="{width:size+'rem',height:size+'rem'}" v-for='num of 5' :key='num' class='icon grey'></Icon>
         </div>
         <div :style="'width:'+ rating*20+'%'" class='mask'>
-            <Icon name='star' v-for='num of 5' :key='num' class='icon orange'></Icon>
+            <Icon name='star' :style="{width:size+'rem',height:size+'rem'}" v-for='num of 5' :key='num' class='icon orange'></Icon>
         </div>
     </div>
 </template>
@@ -20,6 +20,10 @@ export default {
         rating: {
             type: Number,
             default: 0
+        },
+        size: {
+            type: Number,
+            default: 0.5
         }
     }
 }
@@ -56,8 +60,6 @@ export default {
 }
 
 .icon {
-    @mixin wh .5rem,
-    .5rem;
     flex: none;
 }
 </style>

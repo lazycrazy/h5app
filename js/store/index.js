@@ -12,8 +12,22 @@ const state = {
     longitude: '',
     geohash: 'wtw3sm0q087',
     shopDetail: null,
-    cartList:{},
-    
+    cartList: {},
+    cartId: null,
+    sig: null,
+    addresses: [],
+    choosedAddress: null,
+    searchAddress: null,
+    addressIndex: null,
+    needValidation: null,
+    shopId: null,
+    orderParam: null,
+    orderMessage: null,
+    cartPrice: null,
+    remarkText: null,
+    inputRemarkText: '',
+    invoice: false,
+    login: true,
 }
 
 export default new Vuex.Store({

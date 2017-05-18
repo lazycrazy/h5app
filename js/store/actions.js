@@ -12,6 +12,6 @@ export default {
             commit,
             state
         }) {
-            commit(SET_LOCATION, await getAddressList(state.userInfo.user_id))
+            commit(SET_LOCATION, await getAddressList(state.userInfo.userId))
         }
 }

@@ -807,7 +807,7 @@ export default {
                 align-items: center;
                 span:nth-of-type(1) {
                     @mixin sc .7rem,
-                    #fff;
+                    #666;
                     min-width: 1rem;
                     text-align: center;
                 }

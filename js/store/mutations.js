@@ -96,25 +96,66 @@ export default {
         }
     }, [CLEAR_CART](state, shopid) {
         state.cartList[shopid] = null
-            // state.cartList = {...state.cartList }
+        state.cartList = {...state.cartList }
         setStorage('buycart', state.cartList)
     }, [INIT_BUYCART](state) {
         state.cartList = getStorage('buycart') || state.cartList
-    }, [SET_USERINFO](state, info) {
+        
+    }, [CHOOSE_ADDRESS](state, { address, index }) {
+        state.choosedAddress = address
+        state.addressIndex = index
+    },
+
+    [NEED_VALIDATION](state, need) {
+        state.needValidation = need
+    }, [SAVE_CART_ID_SIG](state, {
+        cart_id,
+        sig
+    }) {
+        state.cartId = cart_id
+        state.sig = sig
+    }, [CONFIRM_INVOICE](state, invoice) {
+        state.invoice = invoice
+    }, [CHANGE_ORDER_PARAM](state, newParam) {
+        state.orderParam = Object.assign({}, state.orderParam, newParam)
+    }, [SAVE_SHOPID](state, shopid) {
+        state.shopId = shopid
+    }, [SAVE_ORDER_PARAM](state, orderParam) {
+        state.orderParam = orderParam
+    }, [ORDER_SUCCESS](state, order) {
+        state.cartPrice = null
+        state.orderMessage = order
+    }, [CONFIRM_ADDRESS](state, newAddress) {
+        state.addresses.push(newAddress)
+    },
+
+    [CHOOSE_SEARCH_ADDRESS](state, place) {
+        state.searchAddress = place
+    },
+
+    [CONFIRM_REMARK](state, {
+        remarkText,
+        inputText
+    }) {
+        state.remarkText = remarkText
+        state.inputRemarkText = inputText
+    },
+
+    [SET_USERINFO](state, info) {
         if (state.userInfo && (state.userInfo.username !== info.username)) {
             return;
         };
-        //      if(!state.login) {
-        //          return
-        //      }
+        if (!state.login) {
+            return
+        }
         if (!info.message) {
             state.userInfo = {...info
-            };
+            }
             let validity = 30;
-            let now = new Date();
-            now.setTime(now.getTime() + validity * 24 * 60 * 60 * 1000);
-            document.cookie = "USERID=" + info.user_id + ";expires=" + now.toGMTString();
-            document.cookie = "SID=huRyTRd9QLij7NkbpHJoj3PQrx1eRiO6bAiw" + ";expires=" + now.toGMTString();
+            let now = new Date()
+            now.setTime(now.getTime() + validity * 24 * 60 * 60 * 1000)
+            document.cookie = "USERID=" + info.user_id + ";expires=" + now.toGMTString()
+            document.cookie = "SID=huRyTRd9QLij7NkbpHJoj3PQrx1eRiO6bAiw" + ";expires=" + now.toGMTString()
         } else {
             state.userInfo = null;
         }

@@ -1,5 +1,5 @@
 <template>
-    <div id='rating-container' :style="{height:size+'rem'}">
+    <div id='rating-container' :style="{'line-height':size+'rem'}">
         <div class='stars'>
             <Icon name='star' :style="{width:size+'rem',height:size+'rem'}" v-for='num of 5' :key='num' class='icon grey'></Icon>
         </div>

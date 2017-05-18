@@ -27,7 +27,13 @@ showMoveDot.splice(0) vue使用这种方式清空数组且保持响应
 VUE文件中style scope 使用需要注意，一些组件css引入不能使用scope，需要注意样式污染问题. 
 组件啥的最好使用js导入css
 数据未加载时，注意模板中数据的判断使用
+更新检测问题，注意对象或者数据赋值时，有些不能触发更新  
+Vue 不能检测到对象属性的添加或删除
 
+// this.selectedRemarkText[index] = [remarkIndex, text]
+// this.selectedRemarkText = Object.assign({}, this.selectedRemarkText)
+this.$set(this.selectedRemarkText, index, [remarkIndex, text])
+            
 
 css
 press 

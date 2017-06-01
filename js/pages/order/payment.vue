@@ -132,7 +132,7 @@ export default {
         closeTipFun() {
             this.showAlert = false
             if (this.gotoOrders) {
-                this.$router.push('/order')
+                this.$router.push('/orders')
             }
         },
     }

@@ -28,6 +28,9 @@ const state = {
     inputRemarkText: '',
     invoice: false,
     login: true,
+    orderDatail: null,
+    avatar: null,
+    question:null,
 }
 
 export default new Vuex.Store({

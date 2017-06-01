@@ -20,9 +20,10 @@ import {
     ORDER_SUCCESS,
     SAVE_SHOPID,
     SAVE_ORDER,
-    OUT_LOGIN,
+    LOGIN_OUT,
+    LOGIN,
     RETSET_NAME,
-    SAVE_AVANDER,
+    SET_AVATAR,
     SET_ADDRESS,
     SAVE_ADDDETAIL,
     SAVE_QUESTION,
@@ -100,13 +101,20 @@ export default {
         setStorage('buycart', state.cartList)
     }, [INIT_BUYCART](state) {
         state.cartList = getStorage('buycart') || state.cartList
-        
+
     }, [CHOOSE_ADDRESS](state, { address, index }) {
         state.choosedAddress = address
         state.addressIndex = index
-    },
-
-    [NEED_VALIDATION](state, need) {
+    }, [SAVE_QUESTION](state, question) {
+        state.question = {...question }
+    }, [SET_AVATAR](state, avatar) {
+        state.avatar = avatar
+    }, [LOGIN_OUT](state) {
+        state.userInfo = null
+        state.login = false
+    }, [LOGIN](state) {
+        state.login = true
+    }, [NEED_VALIDATION](state, need) {
         state.needValidation = need
     }, [SAVE_CART_ID_SIG](state, {
         cart_id,
@@ -122,15 +130,19 @@ export default {
         state.shopId = shopid
     }, [SAVE_ORDER_PARAM](state, orderParam) {
         state.orderParam = orderParam
+    }, [SAVE_ORDER](state, detail) {
+        state.orderDetail = detail
     }, [ORDER_SUCCESS](state, order) {
         state.cartPrice = null
         state.orderMessage = order
     }, [CONFIRM_ADDRESS](state, newAddress) {
         state.addresses.push(newAddress)
-    },
-
-    [CHOOSE_SEARCH_ADDRESS](state, place) {
+    }, [RETSET_NAME](state, username) {
+        state.userInfo = Object.assign({}, state.userInfo, { username })
+    }, [CHOOSE_SEARCH_ADDRESS](state, place) {
         state.searchAddress = place
+    }, [SET_ADDRESS](state, addresses) {
+        state.addresses = addresses
     },
 
     [CONFIRM_REMARK](state, {
@@ -142,22 +154,17 @@ export default {
     },
 
     [SET_USERINFO](state, info) {
-        if (state.userInfo && (state.userInfo.username !== info.username)) {
-            return;
-        };
-        if (!state.login) {
-            return
-        }
+        if (!state.login) return
         if (!info.message) {
-            state.userInfo = {...info
-            }
-            let validity = 30;
+            state.userInfo = {...info }
+            let validity = 30
             let now = new Date()
             now.setTime(now.getTime() + validity * 24 * 60 * 60 * 1000)
             document.cookie = "USERID=" + info.user_id + ";expires=" + now.toGMTString()
             document.cookie = "SID=huRyTRd9QLij7NkbpHJoj3PQrx1eRiO6bAiw" + ";expires=" + now.toGMTString()
         } else {
-            state.userInfo = null;
+            state.userInfo = null
+            state.login = false
         }
     }
 }

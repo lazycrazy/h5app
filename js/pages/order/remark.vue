@@ -65,9 +65,9 @@ export default {
         async initData() {
             this.remarkList = await getRemark(this.id, this.sig)
             this.showLoading = false
-            if (this.remarkText) {
-                this.selectedRemarkText = Object.assign({}, this.remarkText)
-            }
+            // if (this.remarkText) {
+            //     this.selectedRemarkText = Object.assign({}, this.remarkText)
+            // }
             this.inputText = this.inputRemarkText
         },
         chooseRemark(index, remarkIndex, text) {

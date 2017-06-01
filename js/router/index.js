@@ -13,10 +13,43 @@ const msite = () =>
     import ( /* webpackChunkName: "msite" */ 'src/pages/msite')
 const search = () =>
     import ( /* webpackChunkName: "search" */ 'src/pages/search')
-const order = () =>
-    import ( /* webpackChunkName: "order" */ 'src/pages/order')
+const service = () =>
+    import ( /* webpackChunkName: "service" */ 'src/pages/service')
+const download = () =>
+    import ( /* webpackChunkName: "download" */ 'src/pages/download')
+const serviceQ2A = () =>
+    import ( /* webpackChunkName: "serviceQ2A" */ 'src/pages/service-Q2A')
+
+const orders = () =>
+    import ( /* webpackChunkName: "order" */ 'src/pages/order/orders')
+const orderDetail = () =>
+    import ( /* webpackChunkName: "orderDeatil" */ 'src/pages/order/order-detail')
+
+const forget = () =>
+    import ( /* webpackChunkName: "forget" */ 'src/pages/forget')
+const login = () =>
+    import ( /* webpackChunkName: "login" */ 'src/pages/login')
 const profile = () =>
     import ( /* webpackChunkName: "profile" */ 'src/pages/profile')
+const userInfo = () =>
+    import ( /* webpackChunkName: "userInfo" */ 'src/pages/profile/user-info')
+const balance = () =>
+    import ( /* webpackChunkName: "balance" */ 'src/pages/profile/balance')
+const benefit = () =>
+    import ( /* webpackChunkName: "benefit" */ 'src/pages/profile/benefit')
+const points = () =>
+    import ( /* webpackChunkName: "points" */ 'src/pages/profile/points')
+const vipcard = () =>
+    import ( /* webpackChunkName: "vipcard" */ 'src/pages/profile/vipcard')
+const setUserName = () =>
+    import ( /* webpackChunkName: "setUserName" */ 'src/pages/profile/set-user-name')
+const addresses = () =>
+    import ( /* webpackChunkName: "addresses" */ 'src/pages/profile/address')
+const addNewAddress = () =>
+    import ( /* webpackChunkName: "addNewAddress" */ 'src/pages/profile/address-add')
+const searchNewAddress = () =>
+    import ( /* webpackChunkName: "searchNewAddress" */ 'src/pages/profile/address-add-search')
+
 const food = () =>
     import ( /* webpackChunkName: "food" */ 'src/pages/food')
 const shop = () =>
@@ -46,7 +79,13 @@ const searchAddress = () =>
     import ( /* webpackChunkName: "searchAddress" */ 'src/pages/order/search-address')
 
 
-    
+const d3_1 = () =>
+    import ( /* webpackChunkName: "1" */ 'src/pages/d3/1')
+
+const d3_2 = () =>
+    import ( /* webpackChunkName: "2" */ 'src/pages/d3/2')
+
+
 Vue.use(VueRouter)
 
 export default new VueRouter({
@@ -73,13 +112,64 @@ export default new VueRouter({
                 component: search
             }, {
                 path: '/profile',
-                component: profile
+                component: profile,
+                children: [{
+                    path: 'userInfo',
+                    component: userInfo,
+                    children: [{
+                        path: 'address',
+                        component: addresses,
+                        children: [{
+                            path: 'add',
+                            component: addNewAddress,
+                            children: [{
+                                path: 'search',
+                                component: searchNewAddress,
+                            }]
+                        }, ]
+                    }]
+                }, {
+                    path: 'balance',
+                    component: balance
+                }, {
+                    path: 'benefit',
+                    component: benefit
+                }, {
+                    path: 'points',
+                    component: points
+                }, {
+                    path: 'vipcard',
+                    component: vipcard
+                }, {
+                    path: 'setUserName',
+                    component: setUserName
+                }, ]
             }, {
-                path: '/order',
-                component: order
+                path: '/login',
+                component: login
+            }, {
+                path: '/forget',
+                component: forget
+            }, {
+                path: '/orders',
+                component: orders,
+                children: [{
+                    path: 'orderDetail',
+                    component: orderDetail
+                }, ]
             }, {
                 path: '/food',
                 component: food
+            }, {
+                path: '/download',
+                component: download
+            }, {
+                path: '/service',
+                component: service,
+                children: [{
+                    path: 'Q2A',
+                    component: serviceQ2A
+                }, ]
             }, {
                 path: '/shop',
                 component: shop,
@@ -124,7 +214,13 @@ export default new VueRouter({
                     }, ]
                 }, ]
 
-            }
+            }, {
+                path: '/d1',
+                component: d3_1
+            }, {
+                path: '/d2',
+                component: d3_2
+            },
         ]
     }]
 })

@@ -33,7 +33,11 @@ Vue 不能检测到对象属性的添加或删除
 // this.selectedRemarkText[index] = [remarkIndex, text]
 // this.selectedRemarkText = Object.assign({}, this.selectedRemarkText)
 this.$set(this.selectedRemarkText, index, [remarkIndex, text])
-            
+
+TypeError: Cannot read property 'components' of undefined 
+注意导入的对象是否为空，如果为null,mixins中使用的时候会读取undefined的一些属性，所以报错
+
+improt value use for data
 
 css
 press 
@@ -59,11 +63,13 @@ css选择器机制，从右向左
 2.类选择器（.myclassname）
 3.标签选择器（div,h1,p）
 4.相邻选择器（h1+p）
-5.子选择器（ul < li）
+5.子选择器（ul > li）
 6.后代选择器（li a）
 7.通配符选择器（*）
 8.属性选择器（a[rel="external"]）
 9.伪类选择器（a:hover, li:nth-child）
+多类选择器 p.abc.def[ghi][him=dsf]       a,b,c
+bem优于多类选择器
 从复杂页面开发来看BEM命名方式编写css代码比嵌套更优
 http://cubic-bezier.com cubic-bezier(.17,.67,.83,.67) css3固定了 0,0 1,1 2点
 容器如果需要完全适应内容大小可以使用flex
@@ -74,6 +80,10 @@ flex 默认是不放大，缩小的
 inline-block 可以简洁的实现float实现的效果，或者flex wrap
 
 js
+注意代码中异常的处理，如果吃掉异常，会导致一些错误很难找到原因，只能一步步调试了
+不确定原因的时候，将异常代码try,获取到错误信息
+方法重名导致的死循环
+async try catch 如果有未捕获的异常会报错 UnhandledPromiseRejectionWarning，可以使用.catch将异常转换为返回结果 return [err,result]
 函数调用无返回值，注意是否箭头函数未return值
 动画
 css3实现  动画属性值发生变化   scrollTop值不属于动画属性支持的值  借助锚点元素实现滚动 css3 :target伪类可以设置当前锚样式，则可以定义动画
@@ -81,16 +91,246 @@ js实现  setInterval requestAnimationFrame
 vue实现 基于css和js动画的封装 复杂的功能可以通过css或js动画库
 Array.find使用时注意比较数值时== ===区别，lodash find使用的isEqual内部使用的===
 array.forEach(item => item = false) 函数中值类型修改只是修改了内部的参数变量，对array没有影响
+input file 可以使用figure或其它组件的事件来触发文件选择操作
+浮点数 可以fixed(精度)再计算，可以转换为整数再算 
+function add(a, b) {
+    var c, d, e;
+    try {
+        c = a.toString().split(".")[1].length;
+    } catch (f) {
+        c = 0;
+    }
+    try {
+        d = b.toString().split(".")[1].length;
+    } catch (f) {
+        d = 0;
+    }
+    return e = Math.pow(10, Math.max(c, d)), (mul(a, e) + mul(b, e)) / e;
+}
+ 
+function sub(a, b) {
+    var c, d, e;
+    try {
+        c = a.toString().split(".")[1].length;
+    } catch (f) {
+        c = 0;
+    }
+    try {
+        d = b.toString().split(".")[1].length;
+    } catch (f) {
+        d = 0;
+    }
+    return e = Math.pow(10, Math.max(c, d)), (mul(a, e) - mul(b, e)) / e;
+}
+ 
+function mul(a, b) {
+    var c = 0,
+        d = a.toString(),
+        e = b.toString();
+    try {
+        c += d.split(".")[1].length;
+    } catch (f) {}
+    try {
+        c += e.split(".")[1].length;
+    } catch (f) {}
+    return Number(d.replace(".", "")) * Number(e.replace(".", "")) / Math.pow(10, c);
+}
+ 
+function div(a, b) {
+    var c, d, e = 0,
+        f = 0;
+    try {
+        e = a.toString().split(".")[1].length;
+    } catch (g) {}
+    try {
+        f = b.toString().split(".")[1].length;
+    } catch (g) {}
+    return c = Number(a.toString().replace(".", "")), d = Number(b.toString().replace(".", "")), mul(c / d, Math.pow(10, f - e));
+}
+离开作用域的值将被自动标记为可以回收，将在垃圾收集期间被删除，“标记清除”是目前主流的垃圾收集算法，给当前不实用的值加上标记，然后再回收其内存
+var let 主要区别在于let是块级作用域
+全局 函数作用域 块级作用域 
+== 和 ===
+1、对于string,number等基础类型，==和===是有区别的
+1）不同类型间比较，==之比较“转化成同一类型后的值”看“值”是否相等，===如果类型不同，其结果就是不等
+2）同类型比较，直接进行“值”比较，两者结果一样
+
+2、对于Array,Object等高级类型，==和===是没有区别的
+进行“指针地址”比较
+
+3、基础类型与高级类型，==和===是有区别的
+1）对于==，将高级转化为基础类型，进行“值”比较
+2）因为类型不同，===结果为false
+
+Nodejs 内存限制 新生的，老生代 内存分配
+node-heapdump 内存泄露工具
+
+闭包的作用 
+1 匿名自执行函数
+我们创建了一个匿名的函数，并立即执行它，由于外部无法引用它内部的变量，
+因此在执行完后很快就会被释放，关键是这种机制不会污染全局对象。
+2缓存
+3 实现封装
+4 闭包的另一个重要用途是实现面向对象中的对象，传统的对象语言都提供类的模板机制，
+这样不同的对象(类的实例)拥有独立的成员及状态，互不干涉。虽然JavaScript中没有类这样的机制，但是通过使用闭包，
+我们可以模拟出这样的机制。由此代码可知，john和jack都可以称为是Person这个类的实例，因为这两个实例对name这个成员的访问是独立的，互不影响的。
+
+class的constructor来生成this   class 不存在变量提升　
+class 的私有方法 
+_命名开头来区分，但只能作为约定； 
+私有方法移出class到模块中，且不导出，则为私有了
+使用symbol的唯一性，将私有方法的名字命名为一个Symbol值
+
+ .then 的第二参数与 .catch 有什么区别  铺货当前reject，和铺货之前所有异常区别
+ io异步操作或者软异步操作，才能判断是否有异步
+ nextTick setimmediate settimeout
+ setTimeout采用的是类似IO观察者，setImmediate采用的是check观察者，而process.nextTick()采用的是idle观察者。
+三种观察者的优先级顺序是：idle观察者>>io观察者>check观察者
+ setTimeout（0）和setImmediate（），而setTimeout的创建要涉及到创建红黑树等性能消耗，所以如果是想创建异步操作的话毋庸置疑是使用setImmediate，但是如果硬要比较他们俩谁先执行，个人感觉没有必要。毕竟setTimeout（0）的目的就是创建异步。
+process.next()所设置的回调函数会存放到数组中，一次性执行所有回调函数。设置的回调函数，会在代码运行完成后立即执行，会在下次事件循环之前被调用
+setImmediate()所设置的回调函数会存到到链表中，每次事件循环只执行链表中的一个回调函数。setImmediate()属于check观察者，其设置的回调函数，会插入到下次事件循环的末尾。
+process.nextTick()，效率最高，消费资源小，但会阻塞CPU的后续调用； 
+setTimeout()，精确度不高，可能有延迟执行的情况发生，且因为动用了红黑树，所以消耗资源大； 
+setImmediate()，消耗的资源小，也不会造成阻塞，但效率也是最低的。
+
+console.log nodejs 看所属平台与输出的流对象类型 chrome异步
+
+ 
+一切对象都有隐式原型__proto__，指向构造函数的显示原型prototype，构造函数才有prototype
+util.inherits   Object.setPrototypeOf(ctor.prototype, superCtor.prototype); 可以直接修改一个对象的__proto__属性 ctor.prototype.__proto__ = superCtor.prototype
+
+
+主键是一种约束，唯一索引是一种索引，两者在本质上是不同的
+1. 主键一定是唯一性索引，其索引名为 primary，唯一性索引并不一定是主键
+2. 一个表中可以有多个唯一性索引，但只能有一个主键
+3. 主键列不允许空值，而唯一性索引列允许空值
+读写分离
+读写分离是在 query 量大的情况下减轻单个 DB 节点压力, 优化数据库读/写速度的一种策略. 不论是 MySQL 还是 MongoDB 都可以进行读写分离.
+读写分离的配置方式直接搜索一下 数据库名 + 读写分离 即可找到. 通常是 M/S 的情况, 使用 Master 专门写, 用 Slave 节点专门读. 使用读写分离时, 请确认读的请求对一致性要求不高, 因为从写库同步读库是有延迟的.
+
+koa
+fetch post json 数据可以使用   body取值
+var payload = {
+    username: 'abc',
+    password: '123'
+};
+fetch("/login",
+{
+    method: "POST",headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'},
+    body:  JSON.stringify( payload )
+})
+.then(function(res){ return res.json(); })
+.then(function(data){ console.log( JSON.stringify( data ) ) })
+或者模拟form-urlencoded (get 使用querystring)
+fetch('/login', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', }, body: 'username=abc&password=123' }).then(function(res){
+　　res.json().then(v=>console.log(v))
+})
+或者文件上传的form-data  服务端需要解析multipart/form-data 才能获取正确数据 body.json
+var data = new FormData();
+data.append( "json", JSON.stringify( payload ) );
+fetch("/login",
+{
+    method: "POST",
+    body:  data
+})
+.then(function(res){ return res.json(); })
+.then(function(data){ console.log( JSON.stringify( data ) ) })
+
+注意调用next 要使用await,否则流程不能正确执行
 
 
 other
 http://editor.method.ac/ svg 在线编辑转换工具
 可以用svg文件浏览器查看
+mocha 可能有缓存
 
-饿了么前端项目完成，达到前端技术全面实践
+流程
+需求调研 需求分析 概要设计 详细设计 编码 测试 交付 验收 培训 
+
+饿了么前端项目完成，全面实践
 前端项目-总结(架构,css,js,swiper,scroll,animate)-nodejs-后端项目总结
 平心静气
 来休息一会
 不努力会越来越痛苦
 有目标才忘我
 努力成为一个普通人
+考虑怎么解决问题，别总想还有这么多问题，着急焦虑
+
+h5+ wepapp
+vue2 + vuex + vue-router + webpack + ES6/7 + precss + flex + svg
+功能列表（页面）:
+home 首页 定位地址
+city 城市 查找选择城市的详细地址
+msite 附件商家，和店铺分类
+food 店铺列表 根据食品分类,距离、销量、评分、特色菜、配送方式等商家属性进行排序和筛选查询商家
+shop 店铺  店铺菜单，食品列表，评价，购物车
+	shopDetail 店铺详细信息 店铺活动与支持的业务列表
+		shopSafe 食品安全信息
+	foodDetail 食品详细信息
+confirmOrder 确认订单信息  选择配送地址，送货时间，支付方式，商品列表，金额，订单备注信息，发票抬头
+	chooseAddress 选择地址   选择一个送货地址，或新增送货地址
+		addAddress 新增送货地址  
+			searchAddress 根据输入选择一个地址
+	remark 订单备注 添加一些备注信息
+	invoice 发票抬头
+	userValidation 用户验证 首次下单用户验证收货人手机号
+	payment 付款  选择支付方式付款
+search 搜索  根据商家名或者食品名搜索店铺
+orders 订单列表
+	orderDetail 订单明细信息
+profile 用户信息	用户名，手机号，余额，优惠，积分，订单，会员卡，服务中心
+	userInfo 用户资料   头像，用户名，地址，手机号，密码，退出
+		address 地址列表
+			Addaddreass 添加地址
+balance 余额
+benefit 优惠信息 红包，代金券
+points 积分
+vipcard 会员卡 会员卡购买，兑换
+login 登录
+forget 密码重置
+download app下载
+service 服务中心
+	service-Q2A 常见问题说明
+
+
+数据结构 算法(设计模式) elmnodejs 
+表结构 业务
+命名  根据需求命名 根据命名设计对应的数据结构和算法实现相应的业务
+
+nodejs
+
+
+架构
+功能模块列表：
+资源,session,
+前台 店铺,商品，订单,用户,付款,地址,红包，优惠活动
+后台 设置，店铺，订单，用户，商品，分类，地址 ，付款，评论，优惠和活动
+
+
+功能组件：
+moment
+nodemailer
+nodemailer-smtp-transport
+password-hash
+premailer-api
+shortid
+captchapng
+config-lite
+formidable
+winston
+gm
+marked
+node-fetch
+pinyin
+pm2
+qiniu
+sha1
+supervisor
+time-stamp
+
+
+
+
+功能清单及需求整理  画面查看，功能备注，详细描述
+社保不能断
+linux 和文档制作能力强化

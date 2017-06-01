@@ -129,7 +129,7 @@
             <Icon :name="$route.path.includes('search')?'findActive':'find'" class='icon'></Icon>
             <span>搜索</span>
         </router-link>
-        <router-link :to="'/order'">
+        <router-link :to="'/orders'">
             <Icon :name="$route.path.includes('order')?'orderActive':'order'" class='icon'></Icon>
             <span>订单</span>
         </router-link>

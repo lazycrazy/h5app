@@ -1,5 +1,5 @@
 import { getUser, getAddressList } from '../service'
-import { SET_USERINFO, SET_LOCATION } from './mutation-types'
+import { SET_USERINFO, SET_ADDRESS } from './mutation-types'
 
 export default {
     async setUserInfo({
@@ -8,10 +8,14 @@ export default {
         }) {
             commit(SET_USERINFO, await getUser())
         },
-        async setLocation({
+
+        async saveAddress({
             commit,
             state
         }) {
-            commit(SET_LOCATION, await getAddressList(state.userInfo.userId))
-        }
+            if (state.addresses.length > 0) return;
+
+            let addres = await getAddressList(state.userInfo.user_id);
+            commit(SET_ADDRESS, addres);
+        },
 }

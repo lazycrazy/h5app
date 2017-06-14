@@ -86,10 +86,28 @@ const d3_2 = () =>
     import ( /* webpackChunkName: "2" */ 'src/pages/d3/2')
 
 
+const adminLogin = () =>
+    import ( /* webpackChunkName: "manage" */ 'src/manage/login')
+
+const manage = () =>
+    import ( /* webpackChunkName: "manage" */ 'src/manage')
+const adminHome = () =>
+    import ( /* webpackChunkName: "manage" */ 'src/manage/home')
+
 Vue.use(VueRouter)
 
 export default new VueRouter({
     routes: [{
+        path: '/manage',
+        component: manage,
+        children: [{
+            path: '',
+            component: adminHome
+        }, ]
+    }, {
+        path: '/manage/login',
+        component: adminLogin
+    }, {
         path: '/',
         component: App,
         children: [{

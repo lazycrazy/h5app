@@ -44,6 +44,8 @@ $color {
     transform: translate(-50%, -50%);
 }
 
+
+
 @define-mixin fj $type: space-between {
     display: flex;
     justify-content: $type;

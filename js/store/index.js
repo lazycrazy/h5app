@@ -31,6 +31,9 @@ const state = {
     orderDatail: null,
     avatar: null,
     question:null,
+    adminInfo:{
+        avatar: 'default.jpg'
+    }
 }
 
 export default new Vuex.Store({

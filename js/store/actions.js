@@ -1,4 +1,4 @@
-import { getUser, getAddressList } from '../service'
+import { getUser, getAddressList, AdminAPI } from '../service'
 import { SET_USERINFO, SET_ADDRESS } from './mutation-types'
 
 export default {
@@ -18,4 +18,16 @@ export default {
             let addres = await getAddressList(state.userInfo.user_id);
             commit(SET_ADDRESS, addres);
         },
+        async getAdminData({ commit }) {
+            try {
+                const res = await AdminAPI.getAdminInfo()
+                if (res.status == 1) {
+                    commit('saveAdminInfo', res.user)
+                } else {
+                    throw new Error(res)
+                }
+            } catch (err) {
+                console.log('您尚未登陆或者session失效')
+            }
+        }
 }

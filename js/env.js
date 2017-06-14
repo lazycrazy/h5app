@@ -9,6 +9,7 @@
 let baseUrl;
 let routerMode;
 const imgBaseUrl = 'https://fuss10.elemecdn.com';
+const baseImgPath = 'static/';
 
 if (process.env.NODE_ENV == 'development') {
     baseUrl = '';
@@ -21,5 +22,6 @@ if (process.env.NODE_ENV == 'development') {
 export {
     baseUrl,
     routerMode,
-    imgBaseUrl
+    imgBaseUrl,
+    baseImgPath
 }

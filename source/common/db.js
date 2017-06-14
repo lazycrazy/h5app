@@ -5,7 +5,7 @@ import debug from 'debug'
 const dbDebug = debug('h5:db')
 mongoose.connect(config.url, { server: { reconnectTries: Number.MAX_VALUE } })
 mongoose.Promise = global.Promise
-
+mongoose.set('debug', true)
 
 const db = mongoose.connection
 

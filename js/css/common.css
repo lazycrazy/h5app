@@ -133,3 +133,8 @@ body {
 .paddingTop {
 	padding-top: 1.95rem;
 }
+
+.fillcontain{
+    height: 100%;
+    width: 100%;
+}

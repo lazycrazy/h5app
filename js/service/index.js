@@ -100,6 +100,60 @@ let getSearchAddress = (keyword) => Promise.resolve(addDetail.addData)
 let deleteAddress = (userid, addressid) => Promise.resolve(vip.vipcart)
 let sendLogin = (code, mobile, validate_token) => Promise.resolve(login.userInfo)
 
+let api_url = 'http://localhost:3001'
+
+let AdminAPI = {
+    async login(data) {
+        var form = new FormData()
+        form.append("json", JSON.stringify(data))
+        return fetch(api_url + "/admin/login", {
+                method: "POST",
+                body: form
+            })
+            .then(res => res.json())
+    },
+    async signup(data) {
+        var form = new FormData()
+        form.append("json", JSON.stringify(data))
+        return fetch(api_url + "/admin/signup", {
+                method: "POST",
+                body: form
+            })
+            .then(res => res.json())
+    },
+    async signout() {
+        return fetch(api_url + '/admin/signout', {
+            headers: {
+                'Authorization': 'Bearer ' + getStorage('token')
+            }
+        }).then(res => {
+            return res.json()
+        })
+    },
+    async getAdminInfo() {
+        return fetch(api_url + '/admin/info', {
+            headers: {
+                'Authorization': 'Bearer ' + getStorage('token')
+            }
+        }).then(res => res.json())
+    },
+    apiCount(date) {
+        return fetch(api_url + `/statis/api/${date}/count`, {
+            headers: {
+                'Authorization': 'Bearer ' + getStorage('token')
+            }
+        }).then(res => res.json())
+    },
+    userCount() {},
+    orderCount() {},
+    apiAllCount() {},
+    getUserCount() {},
+    getOrderCount() {},
+    adminDayCount() {},
+    adminCount() {},
+
+}
+
 export {
     cityGuess,
     hotcity,
@@ -143,14 +197,15 @@ export {
     getOrderDetail,
     getAddressList,
     getSearchAddress,
-    deleteAddress
+    deleteAddress,
+    AdminAPI
 }
 
 
 export const setStorage = (key, value) => {
     if (!key) return
-    if (typeof value !== 'string')
-        value = JSON.stringify(value)
+        // if (typeof value !== 'string')
+    value = JSON.stringify(value)
     window.localStorage.setItem(key, value)
 }
 

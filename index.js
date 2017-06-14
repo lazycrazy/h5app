@@ -11,9 +11,13 @@ import cors from 'kcors'
 import logger from 'koa-logger'
 import json from 'koa-json'
 
+import log from './source/common/logger'
+
+
 
 const app = new Koa()
-app.keys = ['abcdefg', 'gfedcba']
+app.keys = [config.appkey]
+
 
 app.context.db = db
 app.use(bodyParser())
@@ -50,13 +54,15 @@ app.use(function(ctx, next) {
 
 routers(app)
 app.use(ctx => {
+     ctx.throw(404,'未找到')
     // ctx.throw(401,'User not found. Please login!')
-    ctx.assert(ctx.state.user, 401, 'User not found. Please login!')
+    // ctx.assert(ctx.state.user, 401, 'User not found. Please login!')
     ctx.body = 'Hello Koa'
 })
 
 app.on('error', err =>
-    log.error('server error', err)
+    log.error(err)
+    // console.error('server error', err)
 )
 const port = config.port
 app.listen(port, function(err) {

@@ -7,6 +7,11 @@ var projectRoot = path.resolve(__dirname, '../')
     // const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
     //var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
+function assetsPath(_path) {
+    path.posix.join(config.dev.assetsSubDirectory, _path)
+}
+
+
 module.exports = {
     entry: {
         index: './js/index.js',
@@ -56,10 +61,18 @@ module.exports = {
                 //     use: ["css-loader"]
                 // })
         }, {
-            test: /\.(png|jpg|gif|svg)$/,
-            loader: 'file-loader',
+            test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+            loader: 'url-loader',
             options: {
-                name: '[name].[ext]?[hash]'
+                limit: 10000,
+                name: assetsPath('img/[name].[hash:7].[ext]')
+            }
+        }, {
+            test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+            loader: 'url-loader',
+            options: {
+                limit: 10000,
+                name: assetsPath('fonts/[name].[hash:7].[ext]')
             }
         }]
     },

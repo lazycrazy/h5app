@@ -1,6 +1,10 @@
 import mongoose from 'mongoose'
 import PassHash from 'password-hash'
 import to from 'await-to-js'
+import log from '../logger'
+import jwt from 'jsonwebtoken'
+import config from '../../config'
+
 const Schema = mongoose.Schema
 
 
@@ -50,53 +54,84 @@ class UserClass {
     //     return this.findOne({ firstName, lastName });
     // }
 
-    static async add(values) {        
+    static async add(values) {
         values.password = PassHash.generate(values.password)
         return await to(this.create(values))
     }
     static async signup(values) {
-        let user
-        try {
-            user = await this.findOne({ mobile: values.mobile }).exec()
-        } catch (e) {
-            //log error
-            throw e
+        let [err, user] = await to(this.findOne({ mobile: values.mobile }).exec())
+        if (err || user) {
+            log.error('signup:' + err)
+            return { status: 0, message: '用户已存在' }
         }
-        if (user) return false
         values.password = PassHash.generate(values.password)
-        await this.create(values)
-
-        return true
+        let [err1, newUser] = await to(this.create(values))
+        if (err1 || !newUser) {
+            log.error('signup:' + err1)
+            return { status: 0, message: '创建用户失败' }
+        }
+        let token = jwt.sign({ id: newUser.id }, config.appkey, {
+            'expiresIn': 1440 // 设置过期时间})
+        })
+        newUser.token = token
+        let [err2, savedUser] = await to(newUser.save())
+        if (err2) {
+            log.error('login:' + err)
+            return null
+        }
+        return { status: 1, user: savedUser }
     }
     static async login(values) {
-        let user
-        try {
-            user = await this.findOne({ mobile: values.mobile }).exec()
-        } catch (e) {
-            //log error
-            throw e
+        let [err, user] = await to(this.findOne({ mobile: values.mobile }, '-__v -createdAt').exec())
+        if (err || !user) {
+            if (err)
+                log.error('login:' + err)
+            return null
         }
-        if (!user || !PassHash.verify(values.password, user.password)) return false
-        return true
+        if (!user || !PassHash.verify(values.password, user.password)) return null
+
+        let token = jwt.sign({ id: user.id }, config.appkey, {
+            'expiresIn': 1440 // 设置过期时间})
+        })
+        user.token = token
+        user.updatedAt = new Date()
+        let [err2, savedUser] = await to(user.save())
+        if (err2) {
+            log.error('login:' + err)
+            return null
+        }
+
+        return savedUser
     }
-    static async search(query, limit = 1, page = 1, sort = { createdAt: 'desc' }) {
+    static async search(query, limit = 0, page = 1, sort = { createdAt: 'desc' }) {
         let range = page > 1 ? limit * (page - 1) : 0
-        try {
-            let values = await this.find(query).skip(range).sort(sort).exec()
-        } catch (e) {
-            //log error
-            throw e
+        let [err, values] = await to(this.find(query).skip(range).sort(sort).exec())
+        if (err) {
+            log.error('User:search:' + err)
+            return null
         }
         return values
     }
-    static async findAndUpdate(filter, parameters) {
-        // parameters.updateAt = new Date()
-        try {
-            await this.findAndUpdate(filter, parameters)
-        } catch (e) {
-            //log error
-            throw e
+    static async modify(filter, parameters) {
+        if (filter.id) {
+            filter._id = mongoose.Types.ObjectId(filter.id)
+            delete filter.id
         }
+        return await to(this.findOneAndUpdate(filter, parameters))
+    }
+    static async revoked(filter, token) {
+        if (filter.id) {
+            filter._id = mongoose.Types.ObjectId(filter.id)
+            delete filter.id
+        }
+        let [err, user] = await to(this.findOne(filter, 'token'))
+        if (err) {
+            log.error('revoked:' + err)
+            return true
+        }
+        if (!user || !user.token || user.token !== token)
+            return true
+        return false
     }
 }
 

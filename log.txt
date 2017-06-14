@@ -1,3 +1,6 @@
+vue完成管理前后台
+接着完成微信平台
+
 
 babel
 不要文件中只有export * from ...
@@ -11,6 +14,7 @@ exclude 用到的目录需要过滤掉
 hash chunkhash minimize 压缩 之类发布版本优化用到的配置，开发版不要使用影响hmr
 js中引用css，使用style-loader引用插入
 
+babel-node 如果import 文件路径不正确，会导致运行直接退出，也没有错误提示信息
 
 vue
 组件只能有一个根节点
@@ -209,7 +213,7 @@ util.inherits   Object.setPrototypeOf(ctor.prototype, superCtor.prototype); 可�
 读写分离的配置方式直接搜索一下 数据库名 + 读写分离 即可找到. 通常是 M/S 的情况, 使用 Master 专门写, 用 Slave 节点专门读. 使用读写分离时, 请确认读的请求对一致性要求不高, 因为从写库同步读库是有延迟的.
 
 koa
-fetch post json 数据可以使用   body取值
+fetch post json 数据可以使用   body取值(fiddler正确,chrome devtool不正确)
 var payload = {
     username: 'abc',
     password: '123'
@@ -221,11 +225,11 @@ fetch("/login",
 })
 .then(function(res){ return res.json(); })
 .then(function(data){ console.log( JSON.stringify( data ) ) })
-或者模拟form-urlencoded (get 使用querystring)
+或者模拟form-urlencoded (get 使用querystring) (fiddler正确,chrome devtool不正确)
 fetch('/login', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', }, body: 'username=abc&password=123' }).then(function(res){
 　　res.json().then(v=>console.log(v))
 })
-或者文件上传的form-data  服务端需要解析multipart/form-data 才能获取正确数据 body.json
+或者文件上传的form-data  服务端需要解析multipart/form-data 才能获取正确数据 body.json (推荐)
 var data = new FormData();
 data.append( "json", JSON.stringify( payload ) );
 fetch("/login",
@@ -235,6 +239,13 @@ fetch("/login",
 })
 .then(function(res){ return res.json(); })
 .then(function(data){ console.log( JSON.stringify( data ) ) })
+
+//测试 jwt
+fetch('/profile', {
+  headers: {
+    'Authorization': 'Bearer ' + token
+  }
+})
 
 注意调用next 要使用await,否则流程不能正确执行
 

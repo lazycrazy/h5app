@@ -87,12 +87,20 @@ const d3_2 = () =>
 
 
 const adminLogin = () =>
-    import ( /* webpackChunkName: "manage" */ 'src/manage/login')
+    import ( /* webpackChunkName: "adminlogin" */ 'src/manage/login')
 
 const manage = () =>
     import ( /* webpackChunkName: "manage" */ 'src/manage')
 const adminHome = () =>
-    import ( /* webpackChunkName: "manage" */ 'src/manage/home')
+    import ( /* webpackChunkName: "managehome" */ 'src/manage/home')
+const userlist = () =>
+    import ( /* webpackChunkName: "userlist" */ 'src/manage/userlist')
+const shoplist = () =>
+    import ( /* webpackChunkName: "shoplist" */ 'src/manage/shoplist')
+const addshop = () =>
+    import ( /* webpackChunkName: "addshop" */ 'src/manage/addshop')
+const addgoods = () =>
+    import ( /* webpackChunkName: "addgoods" */ 'src/manage/addgoods')
 
 Vue.use(VueRouter)
 
@@ -103,6 +111,18 @@ export default new VueRouter({
         children: [{
             path: '',
             component: adminHome
+        }, {
+            path: 'userlist',
+            component: userlist
+        }, {
+            path: 'shoplist',
+            component: shoplist
+        }, {
+            path: 'addshop',
+            component: addshop
+        },{
+            path: 'addgoods',
+            component: addgoods
         }, ]
     }, {
         path: '/manage/login',

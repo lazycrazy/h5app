@@ -30,7 +30,8 @@ import {
 } from 'src/service'
 import {
     mapActions,
-    mapState
+    mapState,
+    mapMutations
 } from 'vuex'
 
 export default {
@@ -65,19 +66,21 @@ export default {
             ...mapState(['adminInfo']),
         },
         methods: {
+            ...mapMutations(['SET_TOKEN']),
             ...mapActions(['getAdminData']),
             async submitForm(formName) {
                 this.$refs[formName].validate(async(valid) => {
                     if (valid) {
-                        const res = await AdminAPI.login({
-                            mobile: this.loginForm.username,
+                        const res = await AdminAPI.signup({
+                            username: this.loginForm.username,
                             password: this.loginForm.password
                         })
                         if (res.status == 1) {
                             this.$message({
                                 type: 'success',
-                                message: '登录成功'
+                                message: res.message
                             });
+                            this.SET_TOKEN(res.token)
                             setStorage('token', res.token)
                             this.$router.push('/manage')
                         } else {

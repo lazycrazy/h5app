@@ -32,8 +32,10 @@ const state = {
     avatar: null,
     question:null,
     adminInfo:{
-        avatar: 'default.jpg'
-    }
+        avatar: 'avatar.jpg'
+    },
+    token:null,
+    
 }
 
 export default new Vuex.Store({

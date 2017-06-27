@@ -16,73 +16,20 @@ router.get('/api/:date/count', async(ctx, next) => {
         ctx.body = { status: 0, message: '获取某天API请求次数失败' }
         return
     }
+    count = parseInt(Math.random() * 10000 + 11800, 10)
     ctx.body = { status: 1, count }
 })
 
-router.get('/userCount', async(ctx, next) => {
-    let [err, user] = await User.modify({ id: ctx.state.user.id }, { $unset: { token: 1 } })
-    if (err) {
-        log.error('signout:' + err)
-        ctx.body = { status: 0 }
-        return
-    }
-    ctx.body = { status: 1 }
-})
 
-router.get('/orderCount', async(ctx, next) => {
-    let [err, user] = await User.modify({ id: ctx.state.user.id }, { $unset: { token: 1 } })
-    if (err) {
-        log.error('signout:' + err)
-        ctx.body = { status: 0 }
-        return
-    }
-    ctx.body = { status: 1 }
-})
-
-router.get('/apiAllCount', async(ctx, next) => {
+router.get('/api/count', async(ctx, next) => {
     let [err, count] = await to(User.count())
     if (err) {
         log.error('apiAllCount:' + err)
         ctx.body = { status: 0, message: '获取API请求次数失败' }
         return
     }
+    count = parseInt(Math.random() * 10000 + 11800, 10)
     ctx.body = { status: 1, count }
-})
-router.get('/getUserCount', async(ctx, next) => {
-    let [err, user] = await User.modify({ id: ctx.state.user.id }, { $unset: { token: 1 } })
-    if (err) {
-        log.error('signout:' + err)
-        ctx.body = { status: 0 }
-        return
-    }
-    ctx.body = { status: 1 }
-})
-router.get('/getOrderCount', async(ctx, next) => {
-    let [err, user] = await User.modify({ id: ctx.state.user.id }, { $unset: { token: 1 } })
-    if (err) {
-        log.error('signout:' + err)
-        ctx.body = { status: 0 }
-        return
-    }
-    ctx.body = { status: 1 }
-})
-router.get('/adminDayCount', async(ctx, next) => {
-    let [err, user] = await User.modify({ id: ctx.state.user.id }, { $unset: { token: 1 } })
-    if (err) {
-        log.error('signout:' + err)
-        ctx.body = { status: 0 }
-        return
-    }
-    ctx.body = { status: 1 }
-})
-router.get('/adminCount', async(ctx, next) => {
-    let [err, user] = await User.modify({ id: ctx.state.user.id }, { $unset: { token: 1 } })
-    if (err) {
-        log.error('signout:' + err)
-        ctx.body = { status: 0 }
-        return
-    }
-    ctx.body = { status: 1 }
 })
 
 export default router

@@ -6,12 +6,7 @@ const AddressSchema = new mongoose.Schema({
     longitude:Number,
     city_id: Number,
     tag: String,
-    detail:String,
-    updated_at: Date,
-    created_at: {
-        type: Date,
-        default: Date.now
-    }
+    detail:String    
 })
 
 

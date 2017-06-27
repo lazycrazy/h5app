@@ -10,9 +10,10 @@ let baseUrl;
 let routerMode;
 const imgBaseUrl = 'https://fuss10.elemecdn.com';
 const baseImgPath = 'static/';
-
+const imgPath = 'http://orzqmn6l7.bkt.clouddn.com/'
+let api_url = 'http://localhost:3001'
 if (process.env.NODE_ENV == 'development') {
-    baseUrl = '';
+    baseUrl = 'http://orzqmn6l7.bkt.clouddn.com/';
     routerMode = 'hash'
 } else {
     baseUrl = 'https://mainsite-restapi.ele.me';
@@ -23,5 +24,7 @@ export {
     baseUrl,
     routerMode,
     imgBaseUrl,
-    baseImgPath
+    baseImgPath,
+    api_url,
+    imgPath
 }

@@ -15,16 +15,17 @@
 </template>
 <script>
 import {
-    AdminAPI
+    AdminAPI,
+    setStorage
 } from 'src/service'
 import {
     baseImgPath
 } from 'src/env'
 import {
     mapActions,
+    mapMutations,
     mapState
 } from 'vuex'
-console.log(baseImgPath)
 export default {
     data() {
             return {
@@ -33,13 +34,17 @@ export default {
         },
         created() {
             if (!this.adminInfo.id) {
-                this.getAdminData()
+                this.getAdminData().then((logined) => {
+                    if (!logined)
+                        this.$router.push('/manage/login');
+                })
             }
         },
         computed: {
             ...mapState(['adminInfo']),
         },
         methods: {
+            ...mapMutations(['SET_TOKEN']),
             ...mapActions(['getAdminData']),
             async handleCommand(command) {
                 if (command == 'home') {
@@ -51,6 +56,8 @@ export default {
                             type: 'success',
                             message: '退出成功'
                         });
+                        this.SET_TOKEN(null)
+                        setStorage('token', null)
                         this.$router.push('/manage/login');
                     } else {
                         this.$message({
@@ -83,5 +90,6 @@ export default {
 
 .el-dropdown-menu__item {
     text-align: center;
+    font-size: .3rem;
 }
 </style>

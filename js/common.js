@@ -1,6 +1,7 @@
 import FastClick from 'fastclick'
 
 (function(doc, win) {
+	return
 	var docEl = doc.documentElement,
 		resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
 		recalc = function() {

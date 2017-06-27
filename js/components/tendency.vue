@@ -72,7 +72,7 @@ export default {
                         type: 'value',
                         name: '用户、订单',
                         min: 0,
-                        max: 400,
+                        max: 40000,
                         position: 'right',
                         axisLine: {
                             lineStyle: {

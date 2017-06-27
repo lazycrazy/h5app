@@ -36,11 +36,16 @@
     "moment": "^2.18.1",
     "mongoose": "^4.10.2",
     "mz": "^2.6.0",
+    "password-hash": "^1.2.2",
+    "pinyin": "^2.8.3",
+    "qiniu": "^6.1.13",
     "swiper": "^3.4.2",
     "vue": "^2.3.2",
     "vue-router": "^2.5.3",
     "vuex": "^2.3.1",
-    "vuex-router-sync": "^4.1.2"
+    "vuex-router-sync": "^4.1.2",
+    "winston": "^2.3.1",
+    "winston-daily-rotate-file": "^1.4.6"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.7",

@@ -23,11 +23,13 @@ export default {
                 const res = await AdminAPI.getAdminInfo()
                 if (res.status == 1) {
                     commit('saveAdminInfo', res.user)
+                    return true
                 } else {
-                    throw new Error(res)
+                    throw new Error(res.message)
                 }
             } catch (err) {
                 console.log('您尚未登陆或者session失效')
+                return false
             }
         }
 }

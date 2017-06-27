@@ -15,6 +15,9 @@ import * as hongbao from './tempdata/hongbao'
 
 import { objectValueToString } from '../util'
 import _ from 'lodash'
+
+import store from 'src/store'
+
 //初始化数据到websqldb
 //import da from '../websql-da'
 //let city = _(home.groupcity).values().flatten().map(o => {
@@ -100,7 +103,28 @@ let getSearchAddress = (keyword) => Promise.resolve(addDetail.addData)
 let deleteAddress = (userid, addressid) => Promise.resolve(vip.vipcart)
 let sendLogin = (code, mobile, validate_token) => Promise.resolve(login.userInfo)
 
-let api_url = 'http://localhost:3001'
+
+
+import { api_url } from '../env'
+
+async function AdminFetch(url, params, method = 'get') {
+    let token = store.token || getStorage('token')
+
+    if (!token) {
+        return { status: 0, message: '没有token' }
+    }
+    let query = ''
+    if (method === 'get' && params) {
+        query += '?'
+        for (let [key, value] of Object.entries(params))
+            query += key + '=' + encodeURIComponent(value) + '&';
+    }
+    return fetch(api_url + url + query, {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    }).then(res => res.json())
+}
 
 let AdminAPI = {
     async login(data) {
@@ -121,37 +145,85 @@ let AdminAPI = {
             })
             .then(res => res.json())
     },
-    async signout() {
-        return fetch(api_url + '/admin/signout', {
-            headers: {
-                'Authorization': 'Bearer ' + getStorage('token')
-            }
-        }).then(res => {
-            return res.json()
-        })
+    signout() {
+        return AdminFetch('/admin/signout')
     },
-    async getAdminInfo() {
-        return fetch(api_url + '/admin/info', {
-            headers: {
-                'Authorization': 'Bearer ' + getStorage('token')
-            }
-        }).then(res => res.json())
+    getAdminInfo() {
+        return AdminFetch('/admin/info')
     },
     apiCount(date) {
-        return fetch(api_url + `/statis/api/${date}/count`, {
-            headers: {
-                'Authorization': 'Bearer ' + getStorage('token')
-            }
-        }).then(res => res.json())
+        return AdminFetch(`/statis/api/${date}/count`)
     },
-    userCount() {},
-    orderCount() {},
-    apiAllCount() {},
-    getUserCount() {},
-    getOrderCount() {},
-    adminDayCount() {},
-    adminCount() {},
+    userCount(date) {
+        return AdminFetch(`/statis/api/${date}/count`)
+    },
+    orderCount(date) {
+        return AdminFetch(`/statis/api/${date}/count`)
+    },
+    apiAllCount(date) {
+        return AdminFetch(`/statis/api/count`)
+    },
+    getOrderCount(date) {
+        return AdminFetch(`/statis/api/count`)
+    },
+    adminDayCount(date) {
+        return AdminFetch(`/statis/api/${date}/count`)
+    },
+    adminCount(date) {
+        return AdminFetch(`/statis/api/count`)
+    },
+    getUserCount(date) {
+        return AdminFetch(`/admin/count`)
+    },
+    getUserList(data) {
+        return AdminFetch(`/admin`, data)
+    },
+    cityGuess() {
+        return AdminFetch('/city')
+    },
+    addShop(data) {
+        let token = store.token || getStorage('token')
 
+        if (!token) {
+            return { status: 0, message: '没有token' }
+        }
+        var form = new FormData()
+        form.append("json", JSON.stringify(data))
+        return fetch(api_url + "/addshop", {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                method: "POST",
+                body: form
+            })
+            .then(res => res.json())
+    },
+    searchplace(data) {
+        return AdminFetch(`/searchplace`, data)
+    },
+    foodCategory(data) {
+        return AdminFetch(`/admin`, data)
+    },
+    getResturants(data) {
+        return AdminFetch('/shop', data)
+    },
+    getResturantsCount(data) {
+        return AdminFetch('/shop/count', data)
+    },
+    deleteResturant(id) {
+        let token = store.token || getStorage('token')
+
+        if (!token) {
+            return { status: 0, message: '没有token' }
+        }
+        return fetch(api_url + "/shop/" + id, {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                method: "DELETE"
+            })
+            .then(res => res.json())
+    }
 }
 
 export {

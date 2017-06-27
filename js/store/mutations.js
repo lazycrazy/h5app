@@ -29,6 +29,7 @@ import {
     SAVE_QUESTION,
     ADD_ADDRESS,
     BUY_CART,
+    SET_TOKEN
 } from './mutation-types.js'
 
 import { setStorage, getStorage } from 'src/service'
@@ -41,6 +42,8 @@ export default {
             state.longitude = longitude
         }, [SET_GEOHASH](state, geohash) {
             state.geohash = geohash
+        }, [SET_TOKEN](state, token) {
+            state.token = token
         }, [SET_SHOPDETAIL](state, detail) {
             state.shopDetail = detail
         }, [ADD_CART](state, {

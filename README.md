@@ -11,5 +11,5 @@ node.js ES6/7 postcss webpack vue2 vuex  vue-router css3 svg rem flex html5 fetc
 ![image](https://github.com/lazycrazy/h5app/blob/master/screenshot/1.7%20profile1.gif)
 
 后台管理
-koa2 mongoose koa-router  element-ui 
+koa2 mongodb mongoose koa-router  element-ui 
 ![image](https://github.com/lazycrazy/h5app/blob/master/screenshot/2.1%20manage.gif)

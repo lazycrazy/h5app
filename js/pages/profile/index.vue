@@ -4,7 +4,7 @@
         <section>
             <section class="profile-number">
                 <router-link :to="userInfo? '/profile/userInfo' : '/login'" class="profile-link">
-                    <img :src="imgpath" class="privateImage" v-if="this.avatar">
+                    <img :src="'static/avatar.jpg'" class="privateImage" v-if="this.avatar">
                     <span class="privateImage" v-else>
                         <svg class="privateImage-svg">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#avatar-default"></use>
@@ -143,7 +143,8 @@ import {
     mapMutations
 } from 'vuex'
 import {
-    imgBaseUrl
+    imgBaseUrl,
+    api_url
 } from 'src/env'
 import {
     getImagePath
@@ -162,6 +163,7 @@ export default {
                 pointNumber: 0, //积分数
                 avatar: '', //头像地址
                 imgBaseUrl,
+                api_url,
             }
         },
         mixins: [getImagePath],
@@ -174,9 +176,11 @@ export default {
                 'userInfo',
             ]),
             imgpath: function() {
+                console.log(this.avatar)
                 let path;
                 if (this.avatar.indexOf('/') !== -1) {
                     path = imgBaseUrl + 　this.avatar
+                    console.log(path)
                 } else {
                     path = this.getImagePath(this.avatar)
                 }

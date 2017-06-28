@@ -6,12 +6,12 @@
                 <input type="file" class="profileinfopanel-upload" @change="uploadAvatar">
                 <h2>头像</h2>
                 <div class="headportrait-div">
-                    <img :src="avatar" class="headportrait-div-top" v-if="avatar">
-                    <span class="headportrait-div-top" v-else>
+                    <img :src="'/static/avatar.jpg'" class="headportrait-div-top" >
+                    <!-- <span class="headportrait-div-top" v-else>
                         <svg>
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#avatar-default"></use>
                         </svg>
-                    </span>
+                    </span> -->
                     <span class="headportrait-div-bottom">
                         <svg fill="#d8d8d8">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>

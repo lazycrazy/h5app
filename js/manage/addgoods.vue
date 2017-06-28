@@ -44,7 +44,7 @@
                         <el-input v-model="foodForm.description"></el-input>
                     </el-form-item>
                     <el-form-item label="上传食品图片">
-                        <el-upload class="avatar-uploader" :action="baseUrl + '/v1/addimg/food'" :show-file-list="false" :on-success="uploadImg" :before-upload="beforeImgUpload">
+                        <el-upload class="avatar-uploader" :headers="uploadHeaders" :action="api_url + '/addimg/food'" :show-file-list="false" :on-success="uploadImg" :before-upload="beforeImgUpload">
                             <img v-if="foodForm.image_path" :src="baseImgPath + foodForm.image_path" class="avatar">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
@@ -113,15 +113,16 @@ import headTop from 'src/components/header-a'
 import {
     getCategory,
     addCategory,
-    addFood
+    addFood,getStorage
 } from 'src/service'
 import {
     baseUrl,
-    baseImgPath
+    baseImgPath,api_url
 } from 'src/env'
 export default {
     data() {
             return {
+                api_url,
                 baseUrl,
                 baseImgPath,
                 restaurant_id: 1,
@@ -207,7 +208,12 @@ export default {
         computed: {
             selectValue: function() {
                 return this.categoryForm.categoryList[this.categoryForm.categorySelect] || {}
-            }
+            },
+            uploadHeaders() {
+                return {
+                    'Authorization': 'Bearer ' + (this.token || getStorage('token'))
+                }
+            },
         },
         methods: {
             async initData() {

@@ -91,6 +91,8 @@ export default {
         methods: {
             //点击提交按钮，搜索结果并显示，同时将搜索内容存入历史记录
             async searchTarget(historyValue) {
+                if (historyValue)
+                    this.searchValue = historyValue
                 if (!this.searchValue) {
                     return
                 }
